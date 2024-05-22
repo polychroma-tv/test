@@ -49,7 +49,7 @@ class GuideBuilder {
             title: video.name,
             duration: video.duration / 60, // Convert seconds to minutes
             url: video.src,
-            playerType: 'html5' // Assuming YouTube as default player type
+            playerType: video.playerType // Use the playerType from the playlist data
           }
         }))
       };
