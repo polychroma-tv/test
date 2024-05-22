@@ -59,7 +59,8 @@
   z-index: -99;
 }
 .video-foreground,
-.video-background iframe {
+.video-background iframe
+.video-background video {
   position: absolute;
   top: 0;
   left: 0;
