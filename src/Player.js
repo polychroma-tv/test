@@ -27,7 +27,7 @@ const defaultPlayerVars = {
     loop: 0,
     rel: 0,
     muted: 1,
-    origin: 'https://polychroma.app/'
+    origin: 'https://beta-peach.vercel.app/'
   };
   
   class Player extends React.Component {
@@ -281,7 +281,7 @@ const defaultPlayerVars = {
                                 onEnded={this.onEnd}
                                 onError={this.onError}
                                 ref={this.playerRef}
-                                onCanPlay={() => this.playerRef.current.play()}
+                                onCanPlay={this.onReady}
                             />
                         }
                     </div>
