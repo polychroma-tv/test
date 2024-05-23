@@ -20,8 +20,7 @@
     "react-scripts": "3.4.1",
     "react-youtube": "^7.11.3",
     "screenfull": "^5.0.2",
-    "tailwindcss": "^1.8.9",
-    "react-spatial-navigation": "^1.7.0"
+    "tailwindcss": "^1.8.9"
   },
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
