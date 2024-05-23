@@ -96,30 +96,29 @@ class Player extends React.Component {
 
     onReady(e) {
     this.updateVolume();
-    const { currentVideo } = this.props.channelData;
 
-    if (currentVideo.fields.playerType === 'HTML5') {
+    if (this.gameLoopInterval) {
+        console.debug('clear game loop interval');
+        clearInterval(this.gameLoopInterval);
+    }
+
+    this.gameLoopInterval = setInterval(this.gameLoop, LIVENESS_CHECK_MS);
+
+    this.consecutiveUnstarted = 0;
+
+    // Sync HTML5 video to the correct start time and play
+    if (this.props.channelData.currentVideo.fields.playerType !== 'YouTube') {
         const videoElement = this.playerRef.current;
-
-        // Calculate the start time relative to the current time
-        const guideCreatedAt = new Date(this.props.guideCreatedAt);
-        const currentTime = new Date();
-        const elapsedTimeInSeconds = (currentTime - guideCreatedAt) / 1000;
-
-        // Calculate the actual start time for the video
-        const startTime = currentVideo.fields.startTime + elapsedTimeInSeconds;
-
-        // Once metadata is loaded, set the start time and play the video
-        videoElement.addEventListener('loadedmetadata', () => {
-            // Ensure the startTime is within the duration of the video
-            videoElement.currentTime = Math.min(startTime, videoElement.duration);
-            videoElement.play();
-        });
-    } else if (currentVideo.fields.playerType === 'YouTube') {
-        e.target.play();
+        const videoStart = this.state.playerOpts.playerVars.start;
+        if (videoElement && videoStart) {
+            videoElement.currentTime = videoStart;
+            videoElement.play(); // Start playback after setting the start time
+        }
+    } else {
+        // For YouTube videos, ensure playback starts
+        e.target.playVideo();
     }
 }
-
 
     gameLoop() {
         if (this.playerRef.current) {
@@ -291,6 +290,7 @@ class Player extends React.Component {
                                         src={videoId}
                                         controls
                                         autoPlay
+                                        preload="auto"
                                         muted={this.props.isMuted}
                                         volume={this.props.volume}
                                         onEnded={this.onEnd}
