@@ -110,20 +110,21 @@ input:checked + .slider:before {
 }
 
 .icon.sun {
-  left: 10px;
+  left: 9px;
 }
 
 .icon.moon {
-  right: 10px;
+  right: 9px;
+  opacity: 1;
 }
 
 input:checked + .slider .icon.sun {
-  transform: translateY(-50%) translateX(26px);
+  transform: translateY(-50%);
   opacity: 0;
 }
 
 input:checked + .slider .icon.moon {
-  transform: translateY(-50%) translateX(-26px);
+  transform: translateY(-50%);
   opacity: 1;
 }
 
