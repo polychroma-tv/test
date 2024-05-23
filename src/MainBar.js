@@ -32,7 +32,14 @@ class MainBar extends React.Component {
     }
 
     toggleSettings = () => {
-        this.setState({ showSettings: !this.state.showSettings });
+        this.setState({ fadeOutDiffs: true }, () => {
+            setTimeout(() => {
+                this.setState(prevState => ({
+                    showSettings: !prevState.showSettings,
+                    fadeOutDiffs: false
+                }));
+            }, 500); // Adjust the timeout as needed for the fade effect
+        });
     }
 
     setLightMode = () => {
@@ -77,7 +84,7 @@ class MainBar extends React.Component {
                 <div className={`flex flex-col items-start ${isMobile ? 'h-full justify-around' : ''}`}>
                     {
                         this.state.showSettings ? (
-                            <div className="settings-menu">
+                            <div className={`settings-menu ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}`} style={{ transition: 'opacity 0.5s ease-in-out' }}>
                                 <div className="settings-item">
                                     <span>Dark Mode</span>
                                     <label className="toggle-switch">
@@ -98,10 +105,12 @@ class MainBar extends React.Component {
                                         hover:text-current focus:text-current transition-all ease-in duration-300
                                         ${isMobile ? 'py-1 text-lg' : 'py-2 text-xl'}
                                         ${currentCategory === k ? 'text-current' : 'text-gray-400'}
+                                        ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}
                                     `}
                                     onClick={this.props.onSwitchCategory}
                                     data-id={channels[k].slug}
                                     key={k}
+                                    style={{ transition: 'opacity 0.5s ease-in-out' }}
                                 >
                                     {
                                         i18n.language.split('-')[0] === 'es'
