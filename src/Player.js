@@ -73,7 +73,7 @@ class Player extends React.Component {
     }
   }
 
-  oonReady(e) {
+  onReady(e) {
     this.updateVolume();
     if (this.gameLoopInterval) {
       clearInterval(this.gameLoopInterval);
