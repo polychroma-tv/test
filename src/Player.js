@@ -107,17 +107,20 @@ class Player extends React.Component {
 
     this.consecutiveUnstarted = 0;
 
-    // Sync HTML5 video to the correct start time and play
-    if (this.props.channelData.currentVideo.fields.playerType !== 'YouTube') {
+    if (this.props.channelData.currentVideo.fields.playerType === 'HTML5') {
         const videoElement = this.playerRef.current;
         const videoStart = this.state.playerOpts.playerVars.start;
+
         if (videoElement && videoStart) {
-            videoElement.currentTime = videoStart;
-            videoElement.play(); // Start playback after setting the start time
+            // Ensure the video is ready to play before setting currentTime and playing
+            videoElement.addEventListener('canplay', function onCanPlay() {
+                videoElement.currentTime = videoStart;
+                videoElement.play();
+                videoElement.removeEventListener('canplay', onCanPlay);
+            });
         }
-    } else {
-        // For YouTube videos, ensure playback starts
-        e.target.playVideo();
+    } else if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
+        e.target.play();
     }
 }
 
