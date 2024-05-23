@@ -19,7 +19,6 @@ import IconVolume from './assets/IconVolume.js'
 import IconFullScreen from './assets/IconFullScreen.js'
 // import IconGlobe from './assets/IconGlobe.js'
 
-import { Focusable } from 'react-spatial-navigation';
 
 class BottomBar extends React.Component {
   autoCloseTimeout;
@@ -280,26 +279,22 @@ class BottomBar extends React.Component {
                     </div>
                   }
 
-                  <Focusable>
-                    <button className={`
-                      p-5 hover:bg-gray-200 transition-colors duration-300 rounded-lg
-                      ${this.props.isMuted ? 'text-red-700' : ''} `}
-                      onClick={this.props.onToggleMute}>
-                        <IconVolume isMuted={this.props.isMuted}/>
-                    </button>
-                  </Focusable>
-                
-                  {
-                    Screenfull.isEnabled &&
-                    <Focusable>
-                      <button
-                        className="p-5 hover:bg-gray-200 transition-colors duration-300 rounded-lg"
-                        onClick={this.props.onToggleFullscreen}>
-                          <IconFullScreen isFullScreen={Screenfull.isFullscreen}/>
-                      </button>
-                    </Focusable>
-                  }
+                  <button className={`
+                    p-5 hover:bg-gray-200 transition-colors duration-300 rounded-lg
+                    ${this.props.isMuted ? 'text-red-700' : ''} `}
+                    onClick={this.props.onToggleMute}>
+                      <IconVolume isMuted={this.props.isMuted}/>
+                  </button>
                 </div>
+                
+                {
+                  Screenfull.isEnabled &&
+                  <button
+                    className="p-5 hover:bg-gray-200 transition-colors duration-300 rounded-lg"
+                    onClick={this.props.onToggleFullscreen}>
+                      <IconFullScreen isFullScreen={Screenfull.isFullscreen}/>
+                  </button>
+                }
               </div>
           </div>
         </div>
