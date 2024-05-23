@@ -226,7 +226,17 @@ class App extends React.Component {
   }
 
   onToggleFullscreen() {
-    Screenfull.toggle();
+    if (Screenfull.isEnabled) {
+      Screenfull.toggle();
+      if (this.playerRef.current && this.props.channelData.currentVideo.fields.playerType !== 'YouTube') {
+        const videoElement = this.playerRef.current;
+        if (Screenfull.isFullscreen) {
+          videoElement.requestFullscreen();
+        } else {
+          document.exitFullscreen();
+        }
+      }
+    }
   }
 
   onFullScreenChange(e) {
@@ -308,6 +318,7 @@ class App extends React.Component {
               onVideoEnd={this.onVideoEnd}
               skipVideo={this.skipVideo}
               setMuted={this.setMuted}
+              playerRef={this.playerRef}
             />
 
             <BottomBar
