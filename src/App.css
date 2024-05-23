@@ -200,3 +200,13 @@ body.light-mode {
   background-color: #ffffff;
   color: #000000;
 }
+
+body.dark-mode .bottom-bar {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.light-mode .bottom-bar {
+  background-color: #ffffff;
+  color: #000000;
+}
