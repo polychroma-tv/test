@@ -113,8 +113,8 @@ class MainBar extends React.Component {
                                     style={{ transition: 'opacity 0.5s ease-in-out' }}
                                 >
                                     {
-                                        i18n.language.split('-')[0] === 'es'
-                                            ? channels[k]['title-es']
+                                        i18n.language.split('-')[0] === 'fr'
+                                            ? channels[k]['title-fr']
                                             : i18n.language.split('-')[0] === 'en'
                                                 ? channels[k]['title-en']
                                                 : channels[k]['title']
