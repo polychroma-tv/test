@@ -19,7 +19,7 @@ class MainBar extends React.Component {
         this.state = {
             fadeOutDiffs: false,
             showSettings: false,
-            lightMode: true // Add this line
+            lightMode: true
         }
     }
 
@@ -78,12 +78,17 @@ class MainBar extends React.Component {
                     {
                         this.state.showSettings ? (
                             <div className="settings-menu">
-                                <label className="toggle-switch">
-                                    <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
-                                    <span className="slider round"></span>
-                                    {this.state.lightMode ? 'Light Mode' : 'Dark Mode'}
-                                </label>
-                                <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
+                                <div className="settings-item">
+                                    <span>Dark Mode</span>
+                                    <label className="toggle-switch">
+                                        <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
+                                        <span className="slider round"></span>
+                                    </label>
+                                </div>
+                                <div className="settings-item">
+                                    <span>Cache</span>
+                                    <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
+                                </div>
                             </div>
                         ) : (
                             Object.keys(channels).map(k =>
@@ -133,7 +138,7 @@ class MainBar extends React.Component {
                             className={SECONDARY_NAV_STYLE}
                             onClick={this.toggleSettings}
                         >
-                           { t('settings') }
+                           { this.state.showSettings ? t('back') : t('settings') }
                         </button>
                     </div>
                 </BrowserView>
