@@ -4,66 +4,14 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 
 const resources = {
-  'pt-BR': {
-    translation: {
-      'mute-on': 'Desligar som',
-      'mute-off': 'Ligar som',
-      'fullscreen-on': 'Maximizar tela',
-      'fullscreen-off': 'Minimizar tela',
-      'menu-on': 'Fechar menu',
-      'menu-off': 'Abrir menu',
-      
-      'later': 'A seguir',
-
-      'video-error': 'Opa, esse vídeo parece não estar funcionando.\nPor favor, tente outro canal.',
-      
-      'suggest': 'Sugerir vídeo',
-      'manifesto': 'Manifesto',
-      'feedback': 'Feedback',
-      'settings': 'Settings',
-      'back':     'Back',
-      
-      'buymeacoffee': 'Apoie o projeto',
-      
-      'turn-phone': 'Gire seu celular para uma melhor experiência.',
-
-      'welcome-cta': 'Começar',
-      'read-the-manifesto': 'Leia o manifesto',
-      'read-more': 'Saiba mais',
-
-      // Landing page
-      'welcome-title': 'Vídeos selecionados para relaxar e explorar o mundo de casa',
-      
-      'welcome-heading1': 'Escolha um canal e deixe sua mente vagar com o fluxo contínuo de conteúdo',
-      'welcome-body1': "Slow TV é televisão na velocidade da vida. E, como na vida, não há botões de pausar ou passar. É a perfeita experiência minimalista e relaxante.",
-
-      'welcome-heading2': 'Uma seleção de vídeos dos melhores criadores e lugares incríveis ao redor do mundo',
-      'welcome-body2': "Todas visualizações e receita vão para os criadores originais - os verdadeiros artistas por trás disso tudo.",
-
-      'welcome-heading3': 'Assista centenas de horas de Slow TV, carinhosamente curadas por seres humanos',
-      'welcome-body3': 'Nós vasculhamos a Rede Mundial de Computadores para colher apenas as melhores aventuras para você. Para cada vídeo selecionado, 10 outros não foram.',
-
-      'welcome-heading4': 'Relaxe com as imagens e sons naturais enquanto trabalha, ponha na TV da sala ou combine com amigos para um passeio remoto',
-      'welcome-body4': 'Os vídeos estão sempre sincronizados, então basta você compartilhar o link com alguém que você queira assistir juntos.',
-
-      'welcome-final': 'Para onde você\nquer escapar?',
-
-      'welcome-bignum1': 'Continentes',
-      'welcome-bignum2': 'Criadores',
-      'welcome-bignum3': 'Vídeos curados',
-      'welcome-bignum4': 'Horas de conteúdo',
-
-      'footer': 'Se você puder, fique em casa. Salve vidas.'
-    }
-  },
   'en': {
     translation: {
       'mute-on': 'Mute',
       'mute-off': 'Unmute',
-      'fullscreen-on': 'Maximize screen',
-      'fullscreen-off': 'Minimize screen',
-      'menu-on': 'Close menu',
-      'menu-off': 'Open menu',
+      'fullscreen-on': 'Maximize Screen',
+      'fullscreen-off': 'Minimize Screen',
+      'menu-on': 'Close Menu',
+      'menu-off': 'Open Menu',
 
       'later': 'Up next',
 
@@ -108,53 +56,54 @@ const resources = {
       'footer': 'If you can, stay home. Save lives.'
     }
   },
-  'es': {
+  'fr': {
     translation: {
-      'mute-on': '',
-      'mute-off': '',
-      'fullscreen-on': '',
-      'fullscreen-off': '',
-      'menu-on': '',
-      'menu-off': '',
+      'mute-on': 'Muet',
+      'mute-off': 'Son activé',
+      'fullscreen-on': 'Maximiser l\'écran',
+      'fullscreen-off': 'Minimiser l\'écran',
+      'menu-on': 'Fermer le menu',
+      'menu-off': 'Ouvrir le menu',
 
-      'later': 'A continuación',
+      'later': 'À suivre',
       
-      'suggest': 'Sugerir video',
-      'manifesto': 'Manifesto',
-      'feedback': 'Feedback',
-      'about': 'Acerca',
+      'suggest': 'Suggérer une vidéo',
+      'manifesto': 'Manifeste',
+      'feedback': 'Retour',
+      'settings': 'Paramètres',
+      'back':     'Retour',
 
-      'buymeacoffee': 'Apoyanos',
+      'buymeacoffee': 'Soutenez-nous',
       
-      'turn-phone': 'Gire su dispositivo para obtener la mejor experiencia.',
+      'turn-phone': 'Veuillez tourner votre appareil pour une meilleure expérience.',
       
-      'welcome-cta': 'Empezar',
-      'read-more': 'Saber más',
-      'read-the-manifesto': 'Lea el manifesto',
+      'welcome-cta': 'Commencer',
+      'read-more': 'En savoir plus',
+      'read-the-manifesto': 'Lire le manifeste',
       
       // Landing page
-      'welcome-title': 'Vídeos seleccionados para relajarse y explorar el mundo desde casa',
+      'welcome-title': 'Vidéos sélectionnées pour se détendre et explorer le monde depuis chez soi',
 
-      'welcome-heading1': 'Elija un canal y deje que su mente divague con el flujo continuo de contenido',
-      'welcome-body1': "Es televisión a la velocidad de la vida. Y, como en la vida, no viene con una pausa o salta botones. Es la mejor experiencia minimalista y relajante.",
+      'welcome-heading1': 'Choisissez une chaîne et laissez votre esprit vagabonder avec le flux continu de contenu',
+      'welcome-body1': "C'est la télévision à la vitesse de la vie. Et, comme dans la vie, il n'y a pas de bouton pause ou de saut. C'est l'expérience minimaliste et relaxante ultime.",
 
-      'welcome-heading2': 'Una selección de videos de los mejores creadores y lugares asombrosos de todo el mundo.',
-      'welcome-body2': "Todas las vistas y los ingresos publicitarios van a los creadores originales - los verdaderos artistas aquí :)",
+      'welcome-heading2': 'Une sélection de vidéos des meilleurs créateurs et des lieux étonnants du monde entier.',
+      'welcome-body2': "Toutes les vues et les revenus publicitaires vont aux créateurs originaux - les vrais artistes ici :)",
 
-      'welcome-heading3': 'Mira cientos de horas de contenido de Slow TV, cuidadosamente seleccionado por seres humanos.',
-      'welcome-body3': 'Recorrimos la World Wide Web para recopilar solo las mejores aventuras. Por cada video seleccionado, otros 10 no lo fueron.',
+      'welcome-heading3': 'Regardez des centaines d\'heures de contenu Slow TV, soigneusement sélectionné par des êtres humains.',
+      'welcome-body3': 'Nous avons parcouru la World Wide Web pour ne collecter que les meilleures aventures. Pour chaque vidéo sélectionnée, dix autres ne l\'ont pas été.',
 
-      'welcome-heading4': 'Disfrútelo mientras trabaja, póngalo en su televisor o invite a un amigo a dar un paseo a distancia',
-      'welcome-body4': 'Los videos siempre están sincronizados, así que solo comparte el enlace con alguien que quieras ver juntos y listo.',
+      'welcome-heading4': 'Profitez-en pendant que vous travaillez, mettez-le sur votre téléviseur ou invitez un ami pour une promenade à distance',
+      'welcome-body4': 'Les vidéos sont toujours synchronisées, alors partagez simplement le lien avec quelqu\'un avec qui vous voulez regarder et c\'est parti.',
 
-      'welcome-final': '¿A dónde\nquieres escapar?',
+      'welcome-final': 'Où voulez-vous vous échapper ?',
 
-      'welcome-bignum1': 'Continentes',
-      'welcome-bignum2': 'Creadores',
-      'welcome-bignum3': 'Videos seleccionados',
-      'welcome-bignum4': 'Horas de contenido',
+      'welcome-bignum1': 'Continents',
+      'welcome-bignum2': 'Créateurs',
+      'welcome-bignum3': 'Vidéos sélectionnées',
+      'welcome-bignum4': 'Heures de contenu',
 
-      'footer': 'Quédate en casa. Salva vidas.'
+      'footer': 'Si vous le pouvez, restez chez vous. Sauvez des vies.'
     }
   },
 };
@@ -165,7 +114,7 @@ i18n
   .init({
     resources,
     fallbackLng: 'en',
-    // lng: 'es',
+    // lng: 'fr',
 
     keySeparator: false,
 
