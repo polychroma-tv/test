@@ -95,24 +95,26 @@ class Player extends React.Component {
     }
 
     onReady(e) {
-        this.updateVolume();
-    
-        if (this.gameLoopInterval) {
-            console.debug('clear game loop interval');
-            clearInterval(this.gameLoopInterval);
-        }
-    
-        this.gameLoopInterval = setInterval(this.gameLoop, LIVENESS_CHECK_MS);
-    
-        this.consecutiveUnstarted = 0;
-    
-        if (this.props.channelData.currentVideo.fields.playerType === 'HTML5') {
-            e.target.currentTime = this.state.playerOpts.playerVars.start;
-            e.target.play();
-        } else if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
-            e.target.play();
+    this.updateVolume();
+
+    if (this.gameLoopInterval) {
+        console.debug('clear game loop interval');
+        clearInterval(this.gameLoopInterval);
+    }
+
+    this.gameLoopInterval = setInterval(this.gameLoop, LIVENESS_CHECK_MS);
+
+    this.consecutiveUnstarted = 0;
+
+    // Sync HTML5 video to the correct start time
+    if (this.props.channelData.currentVideo.fields.playerType !== 'YouTube') {
+        const videoElement = this.playerRef.current;
+        const videoStart = this.state.playerOpts.playerVars.start;
+        if (videoElement && videoStart) {
+            videoElement.currentTime = videoStart;
         }
     }
+}
 
     gameLoop() {
         if (this.playerRef.current) {
