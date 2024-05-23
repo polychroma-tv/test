@@ -98,45 +98,47 @@ class Player extends React.Component {
   }
 
   gameLoop() {
-    if (this.playerRef.current) {
-      let opts = {};
-      // If video play failed we need to manually send to Analytics its data
-      if (this.state.playerStatus === 'error') {
-        const channelData = this.props.channelData;
-        if (channelData) {
-          opts = {
-            video_title: this.props.channelData.currentVideo.fields.title,
-            video_url: this.props.channelData.currentVideo.fields.url,
-          };
+  if (this.playerRef.current) {
+    let opts = {};
+    // If video play failed we need to manually send to Analytics its data
+    if (this.state.playerStatus === 'error') {
+      const channelData = this.props.channelData;
+      if (channelData) {
+        opts = {
+          video_title: this.props.channelData.currentVideo.fields.title,
+          video_url: this.props.channelData.currentVideo.fields.url,
+        };
+      }
+    }
+    Analytics.event('player_status_' + this.state.playerStatus, opts);
+    if (this.state.playerStatus === 'unstarted' || this.state.playerStatus === undefined) {
+      this.consecutiveUnstarted += 1;
+      console.debug('consecutiveUnstarted', this.consecutiveUnstarted);
+      if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_TO_MUTE) {
+        console.debug('force set muted');
+        this.props.setMuted();
+        if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_GIVEUP) {
+          this.setState({ playerStatus: 'error' });
         }
       }
-      Analytics.event('player_status_' + this.state.playerStatus, opts);
-      if (this.state.playerStatus === 'unstarted' || this.state.playerStatus === undefined) {
-        this.consecutiveUnstarted += 1;
-        console.debug('consecutiveUnstarted', this.consecutiveUnstarted);
-        if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_TO_MUTE) {
-          console.debug('force set muted');
-          this.props.setMuted();
-          if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_GIVEUP) {
-            this.setState({ playerStatus: 'error' });
-          }
-        }
-      } else {
-        this.consecutiveUnstarted = 0;
-      }
-      // Just to make sure (also turns it up after computer sleeping)
-      if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
-        this.playerRef.current.internalPlayer.playVideo();
-      } else {
-        const videoElement = this.playerRef.current;
-        if (videoElement.paused && videoElement.currentTime !== this.state.playerOpts.playerVars.start) {
-          videoElement.play().catch(error => {
-            console.error('Error playing video:', error);
-          });
-        }
+    } else {
+      this.consecutiveUnstarted = 0;
+    }
+    // Just to make sure (also turns it up after computer sleeping)
+    if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
+      this.playerRef.current.internalPlayer.playVideo();
+    } else {
+      const videoElement = this.playerRef.current;
+      if (videoElement.paused && videoElement.currentTime !== this.state.playerOpts.playerVars.start) {
+        // Check if video is paused before calling play
+        console.log('HTML5 Video is starting to play...');
+        videoElement.play().catch(error => {
+          console.error('Error playing video:', error);
+        });
       }
     }
   }
+}
 
   updateVolume() {
     if (this.playerRef.current) {
