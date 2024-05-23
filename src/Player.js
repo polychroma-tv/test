@@ -105,19 +105,6 @@ const defaultPlayerVars = {
         this.gameLoopInterval = setInterval(this.gameLoop, LIVENESS_CHECK_MS);
     
         this.consecutiveUnstarted = 0;
-    
-        // Sync HTML5 video to the correct start time
-        if (this.props.channelData.currentVideo.fields.playerType !== 'YouTube') {
-            const videoElement = this.playerRef.current;
-            const videoStart = this.state.playerOpts.playerVars.start;
-            if (videoElement && videoStart) {
-                videoElement.currentTime = videoStart;
-                videoElement.muted = true; // Ensure the video is muted for autoplay
-                videoElement.play().catch(error => {
-                    console.error('Error attempting to play', error);
-                });
-            }
-        }
     }
     
     gameLoop() {
@@ -296,7 +283,6 @@ const defaultPlayerVars = {
                                 onError={this.onError}
                                 ref={this.playerRef}
                                 onCanPlay={this.onReady}
-                                onPlay={() => this.setState({ playerStatus: 'playing' })}
                             />
                         }
                     </div>
