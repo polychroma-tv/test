@@ -113,14 +113,15 @@ class Player extends React.Component {
 
         if (videoElement && videoStart) {
             // Ensure the video is ready to play before setting currentTime and playing
-            videoElement.addEventListener('canplay', function onCanPlay() {
+            const onLoadedMetadata = () => {
                 videoElement.currentTime = videoStart;
                 videoElement.play();
-                videoElement.removeEventListener('canplay', onCanPlay);
-            });
+                videoElement.removeEventListener('loadedmetadata', onLoadedMetadata);
+            };
+            videoElement.addEventListener('loadedmetadata', onLoadedMetadata);
         }
     } else if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
-        e.target.play();
+        e.target.playVideo();
     }
 }
 
