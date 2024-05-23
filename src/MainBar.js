@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { BrowserView, isMobile } from "react-device-detect";
-
+import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons
 import {
     BOTTOM_BAR_HEIGHT,
     MAIN_BAR_WIDTH
@@ -88,14 +88,18 @@ class MainBar extends React.Component {
                                     <span>Dark Mode</span>
                                     <label className="toggle-switch">
                                         <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
-                                        <span className="slider round"></span>
+                                        <span className="slider round">
+                                            <span className="icon">{this.state.lightMode ? <FaSun /> : <FaMoon />}</span>
+                                        </span>
                                     </label>
                                 </div>
                                 <div className="settings-item">
                                     <span>Language</span>
                                     <label className="toggle-switch">
                                         <input type="checkbox" onChange={this.toggleLanguage} checked={this.state.language === 'fr'} />
-                                        <span className="slider round">{this.state.language.toUpperCase()}</span>
+                                        <span className="slider round">
+                                            <span className="icon">{this.state.language === 'fr' ? 'FR' : 'EN'}</span>
+                                        </span>
                                     </label>
                                 </div>
                                 <div className="settings-item" style={{ width: '100%' }}>
@@ -111,7 +115,7 @@ class MainBar extends React.Component {
                                         ${isMobile ? 'py-1 text-lg' : 'py-2 text-xl'}
                                         ${currentCategory === k ? 'text-current' : 'text-gray-400'}
                                         ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}
-                                    `}
+                                        `}
                                     onClick={this.props.onSwitchCategory}
                                     data-id={channels[k].slug}
                                     key={k}
@@ -145,21 +149,21 @@ class MainBar extends React.Component {
                         )
                     }
                 </div>
-
-                <BrowserView>
-                    <div className="flex flex-col -mb-2 mt-4">
-                        <button
-                            className={SECONDARY_NAV_STYLE}
-                            onClick={this.toggleSettings}
-                            style={{ transition: 'opacity 0.5s ease-in-out' }}
-                        >
-                           { this.state.showSettings ? t('back') : t('settings') }
-                        </button>
-                    </div>
-                </BrowserView>
-            </div>
-        );
+    
+                    <BrowserView>
+                        <div className="flex flex-col -mb-2 mt-4">
+                            <button
+                                className={SECONDARY_NAV_STYLE}
+                                onClick={this.toggleSettings}
+                                style={{ transition: 'opacity 0.5s ease-in-out' }}
+                            >
+                               { this.state.showSettings ? t('back') : t('settings') }
+                            </button>
+                        </div>
+                    </BrowserView>
+                </div>
+            );
+        }
     }
-}
-
-export default withTranslation()(MainBar);
+    
+    export default withTranslation()(MainBar);
