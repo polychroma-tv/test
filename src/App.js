@@ -100,7 +100,7 @@ class App extends React.Component {
     // searchParams.set('ui', this.state.isUIVisible);
     
     const slug = this.state.currentCategory;
-    this.props.history.push(`/${slug}?${searchParams.toString()}`);
+    this.props.history.push(`channel/${slug}?${searchParams.toString()}`);
   }
 
   getParamsFromURL() {
