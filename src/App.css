@@ -96,9 +96,6 @@
   background-color: white;
   transition: .4s;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 input:checked + .slider:before {
@@ -108,16 +105,25 @@ input:checked + .slider:before {
 .icon {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: opacity .4s;
+  transform: translateY(-50%);
+  transition: transform .4s, opacity .4s;
+}
+
+.icon.sun {
+  left: 10px;
+}
+
+.icon.moon {
+  right: 10px;
 }
 
 input:checked + .slider .icon.sun {
+  transform: translateY(-50%) translateX(26px);
   opacity: 0;
 }
 
 input:checked + .slider .icon.moon {
+  transform: translateY(-50%) translateX(-26px);
   opacity: 1;
 }
 
