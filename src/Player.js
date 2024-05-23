@@ -76,7 +76,6 @@ class Player extends React.Component {
   onReady(e) {
     this.updateVolume();
     if (this.gameLoopInterval) {
-      console.debug('clear game loop interval');
       clearInterval(this.gameLoopInterval);
     }
     this.gameLoopInterval = setInterval(this.gameLoop, LIVENESS_CHECK_MS);
@@ -87,10 +86,11 @@ class Player extends React.Component {
       const videoStart = this.state.playerOpts.playerVars.start;
       if (videoElement && videoStart) {
         videoElement.currentTime = videoStart;
-        videoElement.play(); // Start playback after setting the start time
+        videoElement.play().catch(error => {
+          console.error('Error playing video:', error);
+        }); // Start playback after setting the start time
       }
     } else {
-      // For YouTube videos, ensure playback starts
       e.target.playVideo();
     }
   }
