@@ -84,10 +84,6 @@
   background-color: #ccc;
   transition: .4s;
   border-radius: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem; /* Adjust size as needed */
 }
 
 .slider:before {
@@ -110,19 +106,6 @@ input:checked + .slider:before {
   transform: translateX(26px);
 }
 
-.icon {
-  position: absolute;
-  transition: opacity 0.4s;
-}
-
-input:checked + .slider .icon {
-  opacity: 1;
-}
-
-input:not(:checked) + .slider .icon {
-  opacity: 0;
-}
-
 .ios-button {
   display: inline-block;
   padding: 10px 20px;
@@ -138,7 +121,10 @@ input:not(:checked) + .slider .icon {
 .ios-button:hover {
   background-color: #004C4C;
 }
-
+/* 
+  Source:
+  https://stackoverflow.com/questions/24579785/force-iframe-youtube-video-to-center-fit-and-full-cover-the-screen-in-the-backgr
+  */
 .video-background {
   background: white;
   position: fixed;
