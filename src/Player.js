@@ -95,26 +95,31 @@ class Player extends React.Component {
     }
 
     onReady(e) {
-        this.updateVolume();
-        const { currentVideo } = this.props.channelData;
-    
-        if (currentVideo.fields.playerType === 'HTML5') {
-            const videoElement = this.playerRef.current;
-    
-            // Calculate the start time relative to the current time
-            const guideCreatedAt = new Date(this.props.guideCreatedAt);
-            const currentTime = new Date();
-            const elapsedTimeInSeconds = (currentTime - guideCreatedAt) / 1000;
-    
-            // Set the currentTime property of the video element
-            videoElement.currentTime = currentVideo.fields.startTime + elapsedTimeInSeconds;
-    
-            // Play the video
+    this.updateVolume();
+    const { currentVideo } = this.props.channelData;
+
+    if (currentVideo.fields.playerType === 'HTML5') {
+        const videoElement = this.playerRef.current;
+
+        // Calculate the start time relative to the current time
+        const guideCreatedAt = new Date(this.props.guideCreatedAt);
+        const currentTime = new Date();
+        const elapsedTimeInSeconds = (currentTime - guideCreatedAt) / 1000;
+
+        // Calculate the actual start time for the video
+        const startTime = currentVideo.fields.startTime + elapsedTimeInSeconds;
+
+        // Once metadata is loaded, set the start time and play the video
+        videoElement.addEventListener('loadedmetadata', () => {
+            // Ensure the startTime is within the duration of the video
+            videoElement.currentTime = Math.min(startTime, videoElement.duration);
             videoElement.play();
-        } else if (currentVideo.fields.playerType === 'YouTube') {
-            e.target.play();
-        }
-    }    
+        });
+    } else if (currentVideo.fields.playerType === 'YouTube') {
+        e.target.play();
+    }
+}
+
 
     gameLoop() {
         if (this.playerRef.current) {
