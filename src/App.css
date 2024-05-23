@@ -151,10 +151,15 @@ input:checked + .slider .icon.moon {
 .ios-button:hover {
   background-color: #004C4C;
 }
-/* 
-  Source:
-  https://stackoverflow.com/questions/24579785/force-iframe-youtube-video-to-center-fit-and-full-cover-the-screen-in-the-backgr
-  */
+
+body.dark-mode .ios-button {
+  background-color: #004C4C;
+}
+
+body.dark-mode .ios-button:hover {
+  background-color: #002C2C;
+}
+
 .video-background {
   background: white;
   position: fixed;
@@ -184,4 +189,14 @@ input:checked + .slider .icon.moon {
 }
 @media all and (max-width: 500px) {
   .vid-info .acronym { display: none; }
+}
+
+body.dark-mode {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.light-mode {
+  background-color: #ffffff;
+  color: #000000;
 }
