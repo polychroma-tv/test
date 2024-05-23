@@ -86,6 +86,8 @@ class Player extends React.Component {
       const videoStart = this.state.playerOpts.playerVars.start;
       if (videoElement && videoStart) {
         videoElement.currentTime = videoStart;
+        // Add console log to check if the video is being played
+        console.log('HTML5 Video is starting to play...');
         videoElement.play().catch(error => {
           console.error('Error playing video:', error);
         }); // Start playback after setting the start time
@@ -93,7 +95,7 @@ class Player extends React.Component {
     } else {
       e.target.playVideo();
     }
-  }
+}
 
   gameLoop() {
     if (this.playerRef.current) {
