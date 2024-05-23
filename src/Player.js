@@ -108,8 +108,11 @@ class Player extends React.Component {
         this.consecutiveUnstarted = 0;
 
         if (this.props.channelData.currentVideo.fields.playerType === 'HTML5') {
-            e.target.currentTime = this.state.playerOpts.videoStart;
-            e.target.play();
+            // Only set currentTime and play if the playerStatus is not 'playing'
+            if (this.state.playerStatus !== 'playing') {
+                e.target.currentTime = this.state.playerOpts.videoStart;
+                e.target.play();
+            }
         }
     }
 
