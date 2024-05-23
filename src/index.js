@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from "react-router-dom";
-import SpatialNavigation from 'react-spatial-navigation';
 
 import './i18n.js';
 
@@ -11,9 +10,7 @@ import * as serviceWorker from './serviceWorker';
 const render = Component => {
   return ReactDOM.render(
     <Router>
-      <SpatialNavigation>
-        <Component />
-      </SpatialNavigation>
+      <Component />
     </Router>,
     document.getElementById('root')
   );
