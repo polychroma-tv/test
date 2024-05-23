@@ -151,6 +151,7 @@ class MainBar extends React.Component {
                         <button
                             className={SECONDARY_NAV_STYLE}
                             onClick={this.toggleSettings}
+                            style={{ transition: 'opacity 0.5s ease-in-out' }}
                         >
                            { this.state.showSettings ? t('back') : t('settings') }
                         </button>
