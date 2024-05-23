@@ -21,7 +21,8 @@
     "react-youtube": "^7.11.3",
     "screenfull": "^5.0.2",
     "tailwindcss": "^1.8.9",
-    "@noriginmedia/norigin-spatial-navigation": "^1.0.0"
+    "@noriginmedia/norigin-spatial-navigation": "^1.0.0",
+    "react-icons": "^4.3.1"
   },
   "scripts": {
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
