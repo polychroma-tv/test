@@ -95,7 +95,7 @@ class Player extends React.Component {
     } else {
       e.target.playVideo();
     }
-}
+  }
 
   gameLoop() {
     if (this.playerRef.current) {
@@ -129,7 +129,7 @@ class Player extends React.Component {
         this.playerRef.current.internalPlayer.playVideo();
       } else {
         const videoElement = this.playerRef.current;
-        if (videoElement.paused) {
+        if (videoElement.paused && videoElement.currentTime !== this.state.playerOpts.playerVars.start) {
           videoElement.play().catch(error => {
             console.error('Error playing video:', error);
           });
