@@ -23,14 +23,6 @@ class MainBar extends React.Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.channels !== this.props.channels) {
-            setTimeout(() => {
-                this.setState({ fadeOutDiffs: true });
-            }, 3000);
-        }
-    }
-
     toggleSettings = () => {
         this.setState({ fadeOutDiffs: true }, () => {
             setTimeout(() => {
