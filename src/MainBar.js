@@ -90,7 +90,6 @@ class MainBar extends React.Component {
                                     </label>
                                 </div>
                                 <div className="settings-item">
-                                    <span>Cache</span>
                                     <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
                                 </div>
                             </div>
