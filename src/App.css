@@ -96,14 +96,37 @@
   background-color: white;
   transition: .4s;
   border-radius: 50%;
-}
-
-input:checked + .slider {
-  background-color: #004C4C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 input:checked + .slider:before {
   transform: translateX(26px);
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity .4s;
+}
+
+input:checked + .slider .icon.sun {
+  opacity: 0;
+}
+
+input:checked + .slider .icon.moon {
+  opacity: 1;
+}
+
+.slider .icon.sun {
+  opacity: 1;
+}
+
+.slider .icon.moon {
+  opacity: 0;
 }
 
 .ios-button {
