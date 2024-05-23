@@ -167,7 +167,7 @@ class BottomBar extends React.Component {
 
     return (
         <div className={`
-            bg-white z-1 fixed left-0 bottom-0 w-full
+            bottom-bar bg-white z-1 fixed left-0 bottom-0 w-full
             transform transition-all
             ${this.props.isUIVisible || this.state.open ? '-translate-y-0 opacity-100' : 'translate-y-full opacity-0'}
           `} style={{
