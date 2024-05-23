@@ -19,7 +19,8 @@ class MainBar extends React.Component {
         this.state = {
             fadeOutDiffs: false,
             showSettings: false,
-            lightMode: true
+            lightMode: true,
+            language: 'en'
         }
     }
 
@@ -44,6 +45,12 @@ class MainBar extends React.Component {
             document.body.classList.add('dark-mode');
         }
         this.setState({ lightMode: newMode });
+    }
+
+    toggleLanguage = () => {
+        const newLanguage = this.state.language === 'en' ? 'fr' : 'en';
+        this.props.i18n.changeLanguage(newLanguage);
+        this.setState({ language: newLanguage });
     }
 
     clearCache = () => {
@@ -85,8 +92,14 @@ class MainBar extends React.Component {
                                     </label>
                                 </div>
                                 <div className="settings-item">
-                                    <span>Cache</span>
-                                    <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
+                                    <span>Language</span>
+                                    <label className="toggle-switch">
+                                        <input type="checkbox" onChange={this.toggleLanguage} checked={this.state.language === 'fr'} />
+                                        <span className="slider round">{this.state.language.toUpperCase()}</span>
+                                    </label>
+                                </div>
+                                <div className="settings-item" style={{ width: '100%' }}>
+                                    <button className="ios-button" onClick={this.clearCache} style={{ width: '100%' }}>Clear Cache</button>
                                 </div>
                             </div>
                         ) : (
