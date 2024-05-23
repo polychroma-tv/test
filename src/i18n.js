@@ -21,6 +21,7 @@ const resources = {
       'manifesto': 'Manifesto',
       'feedback': 'Feedback',
       'settings': 'Settings',
+      'back':     'Back',
       
       'buymeacoffee': 'Apoie o projeto',
       
@@ -72,6 +73,7 @@ const resources = {
       'manifesto': 'Manifesto',
       'feedback': 'Feedback',
       'settings': 'Settings',
+      'back':     'Back',
 
       'buymeacoffee': 'Support us',
       
