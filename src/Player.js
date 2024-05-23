@@ -126,7 +126,12 @@ class Player extends React.Component {
       if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
         this.playerRef.current.internalPlayer.playVideo();
       } else {
-        this.playerRef.current.play();
+        const videoElement = this.playerRef.current;
+        if (videoElement.paused) {
+          videoElement.play().catch(error => {
+            console.error('Error playing video:', error);
+          });
+        }
       }
     }
   }
