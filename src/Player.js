@@ -267,6 +267,7 @@ class Player extends React.Component {
                         <div className={`video-foreground
                         transition-opacity ease-in-out duration-${VIDEO_TRANSITION_MS}
                         ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
+                        ${isUIVisible ? 'transform translate-x-[MAIN_BAR_WIDTH] translate-y-[-BOTTOM_BAR_HEIGHT]' : 'transform translate-x-0 translate-y-0'}
                     `}>
                             {
                                 this.props.channelData.currentVideo.fields.playerType === 'YouTube' ?
