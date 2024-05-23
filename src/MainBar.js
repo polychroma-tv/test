@@ -1,6 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { BrowserView, isMobile } from "react-device-detect";
+import { FaSun, FaMoon } from 'react-icons/fa';
 
 import {
     BOTTOM_BAR_HEIGHT,
@@ -79,10 +80,13 @@ class MainBar extends React.Component {
                         this.state.showSettings ? (
                             <div className="settings-menu">
                                 <div className="settings-item">
-                                    <span>Dark Mode</span>
+                                    <span>Theme</span>
                                     <label className="toggle-switch">
                                         <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
-                                        <span className="slider round"></span>
+                                        <span className="slider round">
+                                            <FaSun className="icon sun" />
+                                            <FaMoon className="icon moon" />
+                                        </span>
                                     </label>
                                 </div>
                                 <div className="settings-item">
