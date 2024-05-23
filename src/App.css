@@ -1,24 +1,19 @@
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #FFFFFF; /* Light text color */
-  background-color: #1A1A1A; /* Dark background color */
 }
 
 .font-logo {
   font-family: Alata, sans-serif;
   font-weight: 400;
-  color: #FF4081; /* Accent color */
 }
 
 .font-body {
   font-family: DM Sans ss02, sans-serif;
-  color: #FFFFFF; /* Light text color */
 }
 
 .font-heading {
   font-family: PP Woodland, sans-serif;
-  color: #FF4081; /* Accent color */
 }
 
 @font-face {
@@ -51,7 +46,6 @@
  
 .h-2px {
   height: 2px;
-  background-color: #FF4081; /* Accent color */
 }
 
 /* 
@@ -59,7 +53,7 @@
   https://stackoverflow.com/questions/24579785/force-iframe-youtube-video-to-center-fit-and-full-cover-the-screen-in-the-backgr
   */
 .video-background {
-  background: #1A1A1A; /* Dark background color */
+  background: white;
   position: fixed;
   top: 0; right: 0; bottom: 0; left: 0;
   z-index: -99;
