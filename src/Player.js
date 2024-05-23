@@ -273,6 +273,7 @@ const defaultPlayerVars = {
                                 ref={this.playerRef}
                             /> :
                             <video
+                                className="video-foreground"
                                 src={videoId}
                                 controls
                                 autoPlay
@@ -289,7 +290,7 @@ const defaultPlayerVars = {
             </div>
         </div>
     );
-  }
+    }
 }
     
 export default withTranslation()(Player);
