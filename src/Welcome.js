@@ -21,6 +21,7 @@ import thumbdutchman from './assets/thumb-dutchman.png';
 import thumbnippon from './assets/thumb-nippon.png';
 import thumbrailcowgirl from './assets/thumb-railcowgirl.png';
 import { CHROMA_EASING_BEZIER, CHROMA_EASING_TIMING } from './constants.js';
+import { Focusable } from 'react-spatial-navigation';
 
 function Welcome(props) {
     const { t, i18n } = props;
@@ -73,11 +74,13 @@ function Welcome(props) {
                             </h2>
 
                             <div className={`mt-10 delay-200`}>
-                                <Button
-                                    primary
-                                    label={ t('welcome-cta') }
-                                    onClick={onStartClick}
-                                ></Button>
+                                <Focusable>
+                                    <Button
+                                        primary
+                                        label={ t('welcome-cta') }
+                                        onClick={onStartClick}
+                                    ></Button>
+                                </Focusable>
 
                                 <Button
                                     label={ t('read-more') }
@@ -221,11 +224,13 @@ function Welcome(props) {
                 </h2>
 
                 <div className={`mt-8 ${slideIn} delay-200`}>
-                    <Button
-                        primary
-                        label={ t('welcome-cta') }
-                        onClick={onStartClick}
-                    ></Button>
+                    <Focusable>
+                        <Button
+                            primary
+                            label={ t('welcome-cta') }
+                            onClick={onStartClick}
+                        ></Button>
+                    </Focusable>
                 </div>
 
                 <BlurryGlows/>
