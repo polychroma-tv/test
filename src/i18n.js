@@ -20,7 +20,7 @@ const resources = {
       'suggest': 'Sugerir vídeo',
       'manifesto': 'Manifesto',
       'feedback': 'Feedback',
-      'about': 'Sobre',
+      'settings': 'Settings',
       
       'buymeacoffee': 'Apoie o projeto',
       
@@ -71,7 +71,7 @@ const resources = {
       'suggest': 'Suggest video',
       'manifesto': 'Manifesto',
       'feedback': 'Feedback',
-      'about': 'About',
+      'settings': 'Settings',
 
       'buymeacoffee': 'Support us',
       
