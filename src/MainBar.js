@@ -18,7 +18,8 @@ class MainBar extends React.Component {
 
         this.state = {
             fadeOutDiffs: false,
-            showSettings: false
+            showSettings: false,
+            lightMode: true // Add this line
         }
     }
 
@@ -35,13 +36,15 @@ class MainBar extends React.Component {
     }
 
     setLightMode = () => {
-        document.body.classList.remove('dark-mode');
-        document.body.classList.add('light-mode');
-    }
-
-    setDarkMode = () => {
-        document.body.classList.remove('light-mode');
-        document.body.classList.add('dark-mode');
+        const newMode = !this.state.lightMode;
+        if (newMode) {
+            document.body.classList.remove('dark-mode');
+            document.body.classList.add('light-mode');
+        } else {
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+        }
+        this.setState({ lightMode: newMode });
     }
 
     clearCache = () => {
@@ -74,10 +77,13 @@ class MainBar extends React.Component {
                 <div className={`flex flex-col items-start ${isMobile ? 'h-full justify-around' : ''}`}>
                     {
                         this.state.showSettings ? (
-                            <div>
-                                <button onClick={this.setLightMode}>Light Mode</button>
-                                <button onClick={this.setDarkMode}>Dark Mode</button>
-                                <button onClick={this.clearCache}>Clear Cache</button>
+                            <div className="settings-menu">
+                                <label className="toggle-switch">
+                                    <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
+                                    <span className="slider round"></span>
+                                    {this.state.lightMode ? 'Light Mode' : 'Dark Mode'}
+                                </label>
+                                <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
                             </div>
                         ) : (
                             Object.keys(channels).map(k =>
