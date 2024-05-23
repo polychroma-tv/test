@@ -20,8 +20,11 @@ class MainBar extends React.Component {
         this.state = {
             fadeOutDiffs: false,
             showSettings: false,
-            lightMode: true
+            darkMode: true // Set initial state to dark mode with toggle on
         }
+
+        // Set the initial body class
+        document.body.classList.add('dark-mode');
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -36,16 +39,16 @@ class MainBar extends React.Component {
         this.setState({ showSettings: !this.state.showSettings });
     }
 
-    setLightMode = () => {
-        const newMode = !this.state.lightMode;
+    setDarkMode = () => {
+        const newMode = !this.state.darkMode;
         if (newMode) {
-            document.body.classList.remove('dark-mode');
-            document.body.classList.add('light-mode');
-        } else {
-            document.body.classList.remove('light-mode');
             document.body.classList.add('dark-mode');
+            document.body.classList.remove('light-mode');
+        } else {
+            document.body.classList.add('light-mode');
+            document.body.classList.remove('dark-mode');
         }
-        this.setState({ lightMode: newMode });
+        this.setState({ darkMode: newMode });
     }
 
     clearCache = () => {
@@ -82,7 +85,7 @@ class MainBar extends React.Component {
                                 <div className="settings-item">
                                     <span>Theme</span>
                                     <label className="toggle-switch">
-                                        <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
+                                        <input type="checkbox" onChange={this.setDarkMode} checked={this.state.darkMode} />
                                         <span className="slider round">
                                             <FaSun className="icon sun" />
                                             <FaMoon className="icon moon" />
@@ -90,6 +93,7 @@ class MainBar extends React.Component {
                                     </label>
                                 </div>
                                 <div className="settings-item">
+                                    <span>Cache</span>
                                     <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
                                 </div>
                             </div>
