@@ -10,7 +10,6 @@ import {
 
 import { withTranslation } from 'react-i18next';
 
-
 import { isMobileSafari } from './utils.js';
 
 import LogoMenu from './LogoMenu.js'
@@ -23,7 +22,6 @@ import Analytics from './Analytics.js'
 import IconRotate from './assets/IconRotate.js'
 
 import './App.css';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -40,6 +38,7 @@ class App extends React.Component {
     this.updateGuide = this.updateGuide.bind(this);
     this.skipVideo = this.skipVideo.bind(this);
     this.setMuted = this.setMuted.bind(this);
+    this.toggleSettings = this.toggleSettings.bind(this);
 
     if (!isMobileSafari()) {
       Screenfull.on('change', this.onFullScreenChange);
@@ -64,12 +63,17 @@ class App extends React.Component {
         saved.isMuted !== undefined
           ? saved.isMuted
           : true,
-      savedGuide: saved.guide
+      savedGuide: saved.guide,
+      showSettings: false
     };
 
     window.addEventListener('beforeunload', e => {
       this.saveStateToLocalStorage();
     });
+  }
+
+  toggleSettings() {
+    this.setState({ showSettings: !this.state.showSettings });
   }
 
   async componentDidMount() {
@@ -100,7 +104,7 @@ class App extends React.Component {
     // searchParams.set('ui', this.state.isUIVisible);
     
     const slug = this.state.currentCategory;
-    this.props.history.push(`${slug}?${searchParams.toString()}`);
+    this.props.history.push(`/${slug}?${searchParams.toString()}`);
   }
 
   getParamsFromURL() {
@@ -122,55 +126,6 @@ class App extends React.Component {
     const savedState = JSON.parse(window.localStorage.getItem('polychroma-app-state'));
     console.debug('Retrived saved state from local storage:', savedState);
     return savedState;
-  }
-
-  saveStateToLocalStorage() {
-    const state = {
-      isUIVisible: this.state.isUIVisible,
-      isMuted: this.state.isMuted,
-      currentCategory: this.state.currentCategory,
-      welcome_v2: this.state.welcome,
-      volume: this.state.volume,
-      guide: this.state.guide
-    }
- 
-    const str = JSON.stringify(state);
-    window.localStorage.setItem('polychroma-app-state', str);
-  }
-
-  async updateGuide() {
-    const res = await (await fetch('/api/get')).json();
-    const guide = res.body;
-
-    console.debug('New computed guide:', guide);
-
-    // Check if selected category is valid according to new guide
-    let currentCategory;
-    if (this.state.currentCategory && guide.channels[this.state.currentCategory]) {
-      currentCategory = this.state.currentCategory;
-    } else {
-      currentCategory = Object.keys(guide.channels)[0];
-    }
-
-    // Calculate diff of channels lengths
-    if (this.state.savedGuide && this.state.savedGuide.channels) {
-      const currentChannels = guide.channels;
-      const prevChannels = this.state.savedGuide.channels;
-      Object.keys(currentChannels).forEach( k => {
-        if (prevChannels[k]) {
-          const l1 = prevChannels[k].length;
-          const l2 = currentChannels[k].length;
-          const diff = l2 - l1;
-          currentChannels[k].diff = diff > 0 ? diff : 0;
-          // console.debug(`${k} was ${l1} now its ${l2} = ${l2 - l1}`);
-        }
-      })
-    }
-
-    this.setState({
-      guide,
-      currentCategory
-    });
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -265,6 +220,55 @@ class App extends React.Component {
     // this.updateGuide();
   }
 
+  saveStateToLocalStorage() {
+    const state = {
+      isUIVisible: this.state.isUIVisible,
+      isMuted: this.state.isMuted,
+      currentCategory: this.state.currentCategory,
+      welcome_v2: this.state.welcome,
+      volume: this.state.volume,
+      guide: this.state.guide
+    }
+ 
+    const str = JSON.stringify(state);
+    window.localStorage.setItem('polychroma-app-state', str);
+  }
+
+  async updateGuide() {
+    const res = await (await fetch('/api/get')).json();
+    const guide = res.body;
+
+    console.debug('New computed guide:', guide);
+
+    // Check if selected category is valid according to new guide
+    let currentCategory;
+    if (this.state.currentCategory && guide.channels[this.state.currentCategory]) {
+      currentCategory = this.state.currentCategory;
+    } else {
+      currentCategory = Object.keys(guide.channels)[0];
+    }
+
+    // Calculate diff of channels lengths
+    if (this.state.savedGuide && this.state.savedGuide.channels) {
+      const currentChannels = guide.channels;
+      const prevChannels = this.state.savedGuide.channels;
+      Object.keys(currentChannels).forEach( k => {
+        if (prevChannels[k]) {
+          const l1 = prevChannels[k].length;
+          const l2 = currentChannels[k].length;
+          const diff = l2 - l1;
+          currentChannels[k].diff = diff > 0 ? diff : 0;
+          // console.debug(`${k} was ${l1} now its ${l2} = ${l2 - l1}`);
+        }
+      })
+    }
+
+    this.setState({
+      guide,
+      currentCategory
+    });
+  }
+
   render() {
     const { t } = this.props;
     const isReady = !!this.state.guide;
@@ -336,6 +340,8 @@ class App extends React.Component {
                 currentCategory={this.state.currentCategory}
                 onSwitchCategory={this.onSwitchCategory}
                 onAboutClick={() => this.setState({welcome: true})}
+                showSettings={this.state.showSettings}
+                toggleSettings={this.toggleSettings}
               />
             </div>
 
@@ -350,5 +356,4 @@ class App extends React.Component {
   }
 }
 
-
-export default withTranslation()(withOrientationChange(withRouter(App)));
+export default withRouter(withOrientationChange(withTranslation()(App)));
