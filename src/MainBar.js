@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { BrowserView, isMobile } from "react-device-detect";
-import { FaSun, FaMoon } from 'react-icons/fa'; // Import icons
+
 import {
     BOTTOM_BAR_HEIGHT,
     MAIN_BAR_WIDTH
@@ -19,20 +19,20 @@ class MainBar extends React.Component {
         this.state = {
             fadeOutDiffs: false,
             showSettings: false,
-            lightMode: true,
-            language: 'en'
+            lightMode: true
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.channels !== this.props.channels) {
+            setTimeout(() => {
+                this.setState({ fadeOutDiffs: true });
+            }, 3000);
         }
     }
 
     toggleSettings = () => {
-        this.setState({ fadeOutDiffs: true }, () => {
-            setTimeout(() => {
-                this.setState(prevState => ({
-                    showSettings: !prevState.showSettings,
-                    fadeOutDiffs: false
-                }));
-            }, 500); // Adjust the timeout as needed for the fade effect
-        });
+        this.setState({ showSettings: !this.state.showSettings });
     }
 
     setLightMode = () => {
@@ -45,12 +45,6 @@ class MainBar extends React.Component {
             document.body.classList.add('dark-mode');
         }
         this.setState({ lightMode: newMode });
-    }
-
-    toggleLanguage = () => {
-        const newLanguage = this.state.language === 'en' ? 'fr' : 'en';
-        this.props.i18n.changeLanguage(newLanguage);
-        this.setState({ language: newLanguage });
     }
 
     clearCache = () => {
@@ -83,27 +77,17 @@ class MainBar extends React.Component {
                 <div className={`flex flex-col items-start ${isMobile ? 'h-full justify-around' : ''}`}>
                     {
                         this.state.showSettings ? (
-                            <div className={`settings-menu ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}`} style={{ transition: 'opacity 0.5s ease-in-out' }}>
+                            <div className="settings-menu">
                                 <div className="settings-item">
                                     <span>Dark Mode</span>
                                     <label className="toggle-switch">
                                         <input type="checkbox" onChange={this.setLightMode} checked={this.state.lightMode} />
-                                        <span className="slider round">
-                                            <span className="icon">{this.state.lightMode ? <FaSun /> : <FaMoon />}</span>
-                                        </span>
+                                        <span className="slider round"></span>
                                     </label>
                                 </div>
                                 <div className="settings-item">
-                                    <span>Language</span>
-                                    <label className="toggle-switch">
-                                        <input type="checkbox" onChange={this.toggleLanguage} checked={this.state.language === 'fr'} />
-                                        <span className="slider round">
-                                            <span className="icon">{this.state.language === 'fr' ? 'FR' : 'EN'}</span>
-                                        </span>
-                                    </label>
-                                </div>
-                                <div className="settings-item" style={{ width: '100%' }}>
-                                    <button className="ios-button" onClick={this.clearCache} style={{ width: '100%' }}>Clear Cache</button>
+                                    <span>Cache</span>
+                                    <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
                                 </div>
                             </div>
                         ) : (
@@ -114,16 +98,14 @@ class MainBar extends React.Component {
                                         hover:text-current focus:text-current transition-all ease-in duration-300
                                         ${isMobile ? 'py-1 text-lg' : 'py-2 text-xl'}
                                         ${currentCategory === k ? 'text-current' : 'text-gray-400'}
-                                        ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}
-                                        `}
+                                    `}
                                     onClick={this.props.onSwitchCategory}
                                     data-id={channels[k].slug}
                                     key={k}
-                                    style={{ transition: 'opacity 0.5s ease-in-out' }}
                                 >
                                     {
-                                        i18n.language.split('-')[0] === 'fr'
-                                            ? channels[k]['title-fr']
+                                        i18n.language.split('-')[0] === 'es'
+                                            ? channels[k]['title-es']
                                             : i18n.language.split('-')[0] === 'en'
                                                 ? channels[k]['title-en']
                                                 : channels[k]['title']
@@ -149,21 +131,20 @@ class MainBar extends React.Component {
                         )
                     }
                 </div>
-    
-                    <BrowserView>
-                        <div className="flex flex-col -mb-2 mt-4">
-                            <button
-                                className={SECONDARY_NAV_STYLE}
-                                onClick={this.toggleSettings}
-                                style={{ transition: 'opacity 0.5s ease-in-out' }}
-                            >
-                               { this.state.showSettings ? t('back') : t('settings') }
-                            </button>
-                        </div>
-                    </BrowserView>
-                </div>
-            );
-        }
+
+                <BrowserView>
+                    <div className="flex flex-col -mb-2 mt-4">
+                        <button
+                            className={SECONDARY_NAV_STYLE}
+                            onClick={this.toggleSettings}
+                        >
+                           { this.state.showSettings ? t('back') : t('settings') }
+                        </button>
+                    </div>
+                </BrowserView>
+            </div>
+        );
     }
-    
-    export default withTranslation()(MainBar);
+}
+
+export default withTranslation()(MainBar);
