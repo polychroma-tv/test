@@ -108,11 +108,8 @@ class Player extends React.Component {
         this.consecutiveUnstarted = 0;
 
         if (this.props.channelData.currentVideo.fields.playerType === 'HTML5') {
-            // Only set currentTime and play if the playerStatus is not 'playing'
-            if (this.state.playerStatus !== 'playing') {
-                e.target.currentTime = this.state.playerOpts.videoStart;
-                e.target.play();
-            }
+            e.target.currentTime = this.state.playerOpts.videoStart;
+            e.target.play();
         }
     }
 
@@ -154,9 +151,6 @@ class Player extends React.Component {
             if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
                 this.playerRef.current.internalPlayer.playVideo();
             } else {
-                if (this.playerRef.current.currentTime !== this.state.playerOpts.videoStart) {
-                    this.playerRef.current.currentTime = this.state.playerOpts.videoStart;
-                }
                 if (this.state.playerStatus !== 'playing') {
                     this.playerRef.current.play();
                 }
@@ -298,6 +292,11 @@ class Player extends React.Component {
                                         ref={this.playerRef}
                                         onCanPlay={this.onReady}
                                         onPlaying={() => this.setState({ playerStatus: 'playing' })}
+                                        onTimeUpdate={(e) => {
+                                            if (e.target.currentTime < this.state.playerOpts.videoStart) {
+                                                e.target.currentTime = this.state.playerOpts.videoStart;
+                                            }
+                                        }}
                                     />
                             }
                         </div>
