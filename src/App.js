@@ -24,7 +24,6 @@ import IconRotate from './assets/IconRotate.js'
 
 import './App.css';
 
-import { Focusable } from 'react-spatial-navigation';
 
 class App extends React.Component {
   constructor(props) {
@@ -299,31 +298,27 @@ class App extends React.Component {
         {
           !this.state.welcome &&
           <div>
-            <Focusable>
-              <Player
-                channelData={currentChannelData}
-                guideCreatedAt={isReady && this.state.guide.createdAt}
-                isMuted={this.state.isMuted}
-                volume={this.state.volume}
-                isUIVisible={this.state.isUIVisible}
-                onPlayerClick={this.onPlayerClick}
-                onVideoEnd={this.onVideoEnd}
-                skipVideo={this.skipVideo}
-                setMuted={this.setMuted}
-              />
-            </Focusable>
+            <Player
+              channelData={currentChannelData}
+              guideCreatedAt={isReady && this.state.guide.createdAt}
+              isMuted={this.state.isMuted}
+              volume={this.state.volume}
+              isUIVisible={this.state.isUIVisible}
+              onPlayerClick={this.onPlayerClick}
+              onVideoEnd={this.onVideoEnd}
+              skipVideo={this.skipVideo}
+              setMuted={this.setMuted}
+            />
 
-            <Focusable>
-              <BottomBar
-                channelData={currentChannelData}
-                isUIVisible={this.state.isUIVisible}
-                isMuted={this.state.isMuted}
-                volume={this.state.volume}
-                onChangeVolume={this.onChangeVolume}
-                onToggleMute={this.onToggleMute}
-                onToggleFullscreen={this.onToggleFullscreen}
-              />
-            </Focusable>
+            <BottomBar
+              channelData={currentChannelData}
+              isUIVisible={this.state.isUIVisible}
+              isMuted={this.state.isMuted}
+              volume={this.state.volume}
+              onChangeVolume={this.onChangeVolume}
+              onToggleMute={this.onToggleMute}
+              onToggleFullscreen={this.onToggleFullscreen}
+            />
 
             <div
               className={
