@@ -35,7 +35,7 @@ class GuideBuilder {
     };
 
     playlists.forEach((playlist, index) => {
-      const channelSlug = `channel${index + 1}`;
+      const channelSlug = 100 + index * 20;
       database.categories[channelSlug] = {
         slug: channelSlug,
         fields: {
