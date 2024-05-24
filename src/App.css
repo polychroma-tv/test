@@ -199,7 +199,7 @@ body.dark-mode {
 }
 
 body.light-mode {
-  background-color: #ffffff;
+  background-color: #fafafa!important;
   color: #000000;
   transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
   transition-duration: 1.2s;
@@ -211,6 +211,18 @@ body.dark-mode .bottom-bar {
 }
 
 body.light-mode .bottom-bar {
-  background-color: #ffffff;
+  background-color: #fafafa;
   color: #000000;
+}
+
+body.dark-mode .bg-gray-100 {
+  background: #121212;
+  transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  transition-duration: 1.2s;
+}
+
+body.light-mode .bg-gray-100 {
+  background: #fafafa;
+  transition-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  transition-duration: 1.2s;
 }
