@@ -34,8 +34,8 @@ class GuideBuilder {
       categories: {}
     };
 
-    playlists.forEach((playlist) => {
-      const channelSlug = playlist.slug; // Use the slug from the playlist data
+    playlists.forEach((playlist, index) => {
+      const channelSlug = `channel${index + 1}`;
       database.categories[channelSlug] = {
         slug: channelSlug,
         fields: {
