@@ -10,13 +10,16 @@ async function fetchChannelPlaylists() {
   }
   const data = await response.json();
   const channelUrls = data.defaultPlaylists;
+  const slugs = data.slugs; // Assuming the slugs are provided in the response
 
-  const playlists = await Promise.all(channelUrls.map(async (url) => {
+  const playlists = await Promise.all(channelUrls.map(async (url, index) => {
     const res = await fetch(url);
     if (!res.ok) {
       throw new Error(`Failed to fetch playlist: ${res.statusText}`);
     }
-    return res.json();
+    const playlist = await res.json();
+    playlist.slug = slugs[index]; // Add the slug to the playlist data
+    return playlist;
   }));
 
   return playlists;
