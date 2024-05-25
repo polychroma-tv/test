@@ -293,8 +293,7 @@ class Player extends React.Component {
                                         onCanPlay={this.onReady}
                                         onPlaying={() => this.setState({ playerStatus: 'playing' })}
                                         onTimeUpdate={(e) => {
-                                            // Only set currentTime if it's less than videoStart and not already set
-                                            if (e.target.currentTime < this.state.playerOpts.videoStart && e.target.currentTime !== this.state.playerOpts.videoStart) {
+                                            if (e.target.currentTime < this.state.playerOpts.videoStart) {
                                                 e.target.currentTime = this.state.playerOpts.videoStart;
                                             }
                                         }}
