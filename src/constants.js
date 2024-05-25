@@ -13,6 +13,6 @@ export const VIDEO_TRANSITION_MS = 1000;
 export const LABELS_TRANSITION_MS = 1000;
 
 export const UNSTARTED_TIMEOUT_TO_MUTE = 10;
-export const UNSTARTED_TIMEOUT_GIVEUP = 30;
+export const UNSTARTED_TIMEOUT_GIVEUP = 60;
 
 export const CHANNEL_REPOSITORY_URL = 'https://polychroma.tv/wp-json/tv/channels/';
