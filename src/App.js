@@ -39,7 +39,6 @@ class App extends React.Component {
     this.skipVideo = this.skipVideo.bind(this);
     this.setMuted = this.setMuted.bind(this);
     this.toggleSettings = this.toggleSettings.bind(this);
-    this.onVideoClick = this.onVideoClick.bind(this);
 
     if (!isMobileSafari()) {
       Screenfull.on('change', this.onFullScreenChange);
@@ -65,9 +64,7 @@ class App extends React.Component {
           ? saved.isMuted
           : true,
       savedGuide: saved.guide,
-      showSettings: false,
-      currentVideo: null,
-      currentPlot: null
+      showSettings: false
     };
 
     window.addEventListener('beforeunload', e => {
@@ -272,19 +269,6 @@ class App extends React.Component {
     });
   }
 
-  onVideoClick(videoUrl, videoTitle, plot) {
-    this.setState({
-      currentVideo: { url: videoUrl, title: videoTitle },
-      currentPlot: plot
-    });
-    this.updateURL(videoTitle);
-  }
-
-  updateURL(videoTitle) {
-    const slug = videoTitle.toLowerCase().replace(/\s+/g, '-');
-    this.props.history.push(`/${slug}`);
-  }
-
   render() {
     const { t } = this.props;
     const isReady = !!this.state.guide;
@@ -338,7 +322,6 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
-              onVideoClick={this.onVideoClick}
             />
 
             <div
