@@ -39,13 +39,24 @@ class BottomBar extends React.Component {
     this.updateMenuAutocloseBehavior();
   }
 
-  onMouseMove(e) {
+  async fetchPlot(videoId) {
+    const response = await fetch(`https://imdb.polychroma.workers.dev/title/${videoId}`);
+    const data = await response.json();
+    return data.plot;
+  }
+
+  async onMouseMove(e) {
     console.debug('onMouseMove');
 
     if (!this.props.isUIVisible) {
       this.setState({
         open: true
       });
+    }
+
+    if (e.target.tagName === 'A' && e.target.dataset.videoId) {
+      const plot = await this.fetchPlot(e.target.dataset.videoId);
+      this.props.onVideoClick(e.target.href, e.target.innerText, plot);
     }
   }
 
