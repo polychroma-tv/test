@@ -2,6 +2,7 @@ import React from 'react';
 import YouTube from 'react-youtube';
 
 import { withTranslation } from 'react-i18next';
+import { withRouter } from 'react-router-dom';
 
 import Spinner from './Spinner.js'
 import Analytics from './Analytics.js'
@@ -53,9 +54,9 @@ class Player extends React.Component {
     }
 
     updateChannelData() {
+        const videoId = this.props.match.params.videoId;
         const channelData = this.props.channelData;
         if (channelData && channelData.currentVideo) {
-            const videoId = channelData.currentVideo.fields['id'];
             const videoEnd = channelData.currentVideo.fields.duration * 60;
 
             const guideCreatedAt = new Date(this.props.guideCreatedAt);
@@ -307,4 +308,4 @@ class Player extends React.Component {
     }
 }
 
-export default withTranslation()(Player);
+export default withRouter(withTranslation()(Player));
