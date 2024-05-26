@@ -272,9 +272,9 @@ class BottomBar extends React.Component {
                     </div>
                   </div>
                   <div className="mt-2 text-xs additional-info">
-                    {this.state.additionalInfo.contentRating && <div>Rating: {this.state.additionalInfo.contentRating}</div>}
-                    {this.state.additionalInfo.genre && <div>Genre: {this.state.additionalInfo.genre}</div>}
-                    {this.state.additionalInfo.year && <div>Year: {this.state.additionalInfo.year}</div>}
+                    {this.state.additionalInfo.contentRating && <div className="content-rating">{this.state.additionalInfo.contentRating}</div>}
+                    {this.state.additionalInfo.genre && <div> | {this.state.additionalInfo.genre}</div>}
+                    {this.state.additionalInfo.year && <div> | {this.state.additionalInfo.year}</div>}
                   </div>
                   <div className="mt-2 text-xs description">
                     {this.state.currentVideoDescription}
