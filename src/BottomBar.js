@@ -33,11 +33,29 @@ class BottomBar extends React.Component {
     this.state = {
       loading: true,
       open: false,
-      showVolumeSlider: false
+      showVolumeSlider: false,
+      currentVideoDescription: ''
     }
 
     this.delayStateUpdate();
     this.updateMenuAutocloseBehavior();
+  }
+
+  async fetchVideoDescription() {
+    const { currentVideo } = this.state.channelData;
+    let description = '';
+
+    if (currentVideo.fields['playerType'] === 'html5') {
+      const response = await fetch(`https://imdb.polychroma.workers.dev/title/${currentVideo.fields['id']}`);
+      const data = await response.json();
+      description = data.plot;
+    } else if (currentVideo.fields['playerType'] === 'YouTube') {
+      const response = await fetch(`https://hls.videochro.me/info/${currentVideo.fields['id']}`);
+      const data = await response.json();
+      description = data.description;
+    }
+
+    this.setState({ currentVideoDescription: description });
   }
 
   onMouseMove(e) {
@@ -83,6 +101,7 @@ class BottomBar extends React.Component {
 
       // Delay updating content to give time for transition
       this.delayStateUpdate();
+      this.fetchVideoDescription();
     }
 
     if (prevState.open !== this.state.open) {
@@ -151,14 +170,8 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'] &&
         currentVideo.fields['channelUrl'][0];
 
-      // Extract the filename without extension from currentVideoUrl
-      if (currentVideo.fields['playerType'] === 'html5') {
-        const url = new URL(currentVideo.fields['url']);
-        const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
-        currentVideoUrl = filename;
-      } else if (currentVideo.fields['playerType'] === 'YouTube') {
-        currentVideoUrl = currentVideo.fields['url'];
-      }
+      // Use the same method for both html5 and YouTube
+      currentVideoUrl = `title/${currentVideo.fields['id']}`;
       
       currentVideoTitle = stripEmojis(currentVideo.fields['title']);
       nextVideoTitle = stripEmojis(nextVideo.fields['title']);
@@ -203,7 +216,7 @@ class BottomBar extends React.Component {
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
                           {/* Replace the <a> tag with a <button> and use this.props.history.push for navigation */}
-                          <button className="hover:underline" onClick={() => this.props.history.push(`/title/${currentVideoUrl}`)}>
+                          <button className="hover:underline" onClick={() => this.props.history.push(`/${currentVideoUrl}`)}>
                             {currentVideoTitle}
                           </button>
                         </div>
@@ -216,6 +229,9 @@ class BottomBar extends React.Component {
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className="mt-2 text-xs">
+                    {this.state.currentVideoDescription}
                   </div>
                 </div>
 
