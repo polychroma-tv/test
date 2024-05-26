@@ -43,15 +43,21 @@ class GuideBuilder {
           'title-en': playlist.info.name,
           'title-es': playlist.info.name
         },
-        videos: playlist.playlist.map(video => ({
-          fields: {
-            id: video.playerType === 'html5' ? video.src.split('/').pop() : video.src,
-            title: video.name,
-            duration: video.duration / 60, // Convert seconds to minutes
-            url: video.src,
-            playerType: video.playerType // Use the playerType from the playlist data
+        videos: playlist.playlist.map(video => {
+          let id = video.src;
+          if (video.playerType === 'html5') {
+            id = video.src.split('/').pop().split('.').slice(0, -1).join('.');
           }
-        }))
+          return {
+            fields: {
+              id: id,
+              title: video.name,
+              duration: video.duration / 60, // Convert seconds to minutes
+              url: video.src,
+              playerType: video.playerType // Use the playerType from the playlist data
+            }
+          };
+        })
       };
     });
 
