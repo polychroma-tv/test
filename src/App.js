@@ -139,19 +139,9 @@ class App extends React.Component {
       this.updateGuide();
     }
   }
-
-  // Add the fetchGuide method
-  async fetchGuide() {
-    const response = await fetch('/api/get');
-    if (!response.ok) {
-      throw new Error('Failed to fetch guide');
-    }
-    const data = await response.json();
-    return data.body;
-  }
-
+  
   async loadVideoById(videoId) {
-    const guide = await this.fetchGuide();
+    const { guide } = this.state;
     const channels = guide.channels;
     let found = false;
     for (const channel in channels) {
@@ -160,7 +150,6 @@ class App extends React.Component {
         if (video.fields.id === videoId) {
           this.setState({
             currentCategory: channel,
-            guide,
             isUIVisible: true,
             welcome: false
           });
