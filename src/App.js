@@ -45,7 +45,6 @@ class App extends React.Component {
     }
 
     const saved = this.getStateFromLocalStorage() || {};
-    // const params = this.getParamsFromURL();
 
     this.state = {
       welcome: saved.welcome_v2 !== undefined 
@@ -84,7 +83,10 @@ class App extends React.Component {
     });
 
     let category = this.props.location.pathname.split('/')[1];
-    if (!category) {
+    const videoId = this.props.match.params.videoId;
+    if (videoId) {
+      this.loadVideoById(videoId, true); // Load video and start from 0:00
+    } else if (!category) {
       const prevState = this.getStateFromLocalStorage();
       if (prevState) {
         category = prevState.currentCategory;
@@ -98,37 +100,14 @@ class App extends React.Component {
     this.updateGuide();
   }
 
-  updateURL() {
-    const searchParams = new URLSearchParams();
-    // searchParams.set('muted', this.state.isMuted);
-    // searchParams.set('ui', this.state.isUIVisible);
-    
-    const slug = this.state.currentCategory;
-    this.props.history.push(`/${slug}?${searchParams.toString()}`);
-  }
-
-  getParamsFromURL() {
-    const possibleParams = ['ui', 'muted'];
-    const params = new URLSearchParams(this.props.location.search);
-
-    let ret = {}
-    possibleParams.forEach( p => {
-        let value = params.get(p);
-        if (value) {
-            ret[p] = value === 'true';
-        }
-    })
-
-    return ret;
-  }
-
-  getStateFromLocalStorage() {
-    const savedState = JSON.parse(window.localStorage.getItem('polychroma-app-state'));
-    console.debug('Retrived saved state from local storage:', savedState);
-    return savedState;
-  }
-
   componentDidUpdate(prevProps, prevState) {
+    if (prevProps.match.params.videoId !== this.props.match.params.videoId) {
+      const videoId = this.props.match.params.videoId;
+      if (videoId) {
+        this.loadVideoById(videoId, true); // Load video and start from 0:00
+      }
+    }
+
     if (prevState.currentCategory !== this.state.currentCategory) {
       if (this.state.guide) {
         const currentChannelData = this.state.guide.channels[this.state.currentCategory];
@@ -267,6 +246,26 @@ class App extends React.Component {
       guide,
       currentCategory
     });
+  }
+
+  loadVideoById(videoId, startFromBeginning = false) {
+    const { guide } = this.state;
+    if (guide) {
+      for (const channel of Object.values(guide.channels)) {
+        const video = channel.videos.find(video => video.fields.id === videoId);
+        if (video) {
+          channel.currentVideo = video;
+          this.setState({
+            currentCategory: channel.id
+          }, () => {
+            if (startFromBeginning) {
+              this.playerRef.current.seekTo(0); // Start playback from 0:00
+            }
+          });
+          break;
+        }
+      }
+    }
   }
 
   render() {
