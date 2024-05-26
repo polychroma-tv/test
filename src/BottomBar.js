@@ -216,21 +216,6 @@ class BottomBar extends React.Component {
                         </div>
                       </div>
                     </div>
-
-                    <div id="airtableId" className="hidden">
-                      { currentVideo && currentVideo.id }
-                    </div>
-
-                    {/* {
-                      latlong && 
-                      <div className="ml-4 mt-2">
-                        <a target="_blank" rel="noopener noreferrer"
-                          className="hover:underline text-gray-700 whitespace-no-wrap"
-                          href={`https://www.google.com/maps/@${latlong},12z`} >
-                            {latlongLabel}
-                        </a>
-                      </div>
-                    } */}
                   </div>
                 </div>
 
