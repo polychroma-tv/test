@@ -23,8 +23,6 @@ import IconRotate from './assets/IconRotate.js'
 
 import './App.css';
 
-import { Route, Switch } from 'react-router-dom';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -304,58 +302,53 @@ class App extends React.Component {
         {
           !this.state.welcome &&
           <div>
-            <Switch>
-              <Route path="/watch/:videoId" render={(props) => (
-                <Player
-                  {...props}
-                  channelData={currentChannelData}
-                  guideCreatedAt={isReady && this.state.guide.createdAt}
-                  isMuted={this.state.isMuted}
-                  volume={this.state.volume}
-                  isUIVisible={true}
-                  onPlayerClick={this.onPlayerClick}
-                  onVideoEnd={this.onVideoEnd}
-                  skipVideo={this.skipVideo}
-                  setMuted={this.setMuted}
-                />
-              )} />
-              <Route path="/" render={() => (
-                <>
-                  <Player
-                    channelData={currentChannelData}
-                    guideCreatedAt={isReady && this.state.guide.createdAt}
-                    isMuted={this.state.isMuted}
-                    volume={this.state.volume}
-                    isUIVisible={this.state.isUIVisible}
-                    onPlayerClick={this.onPlayerClick}
-                    onVideoEnd={this.onVideoEnd}
-                    skipVideo={this.skipVideo}
-                    setMuted={this.setMuted}
-                  />
-                  <BottomBar
-                    channelData={currentChannelData}
-                    isUIVisible={this.state.isUIVisible}
-                    isMuted={this.state.isMuted}
-                    volume={this.state.volume}
-                    onChangeVolume={this.onChangeVolume}
-                    onToggleMute={this.onToggleMute}
-                    onToggleFullscreen={this.onToggleFullscreen}
-                  />
-                  <MainBar
-                    channels={isReady && this.state.guide.channels}
-                    currentCategory={this.state.currentCategory}
-                    onSwitchCategory={this.onSwitchCategory}
-                    onAboutClick={() => this.setState({welcome: true})}
-                    showSettings={this.state.showSettings}
-                    toggleSettings={this.toggleSettings}
-                  />
-                  <LogoMenu
-                    isUIVisible={this.state.isUIVisible}
-                    onToggleUI={this.onToggleUI}
-                  />
-                </>
-              )} />
-            </Switch>
+            <Player
+              channelData={currentChannelData}
+              guideCreatedAt={isReady && this.state.guide.createdAt}
+              isMuted={this.state.isMuted}
+              volume={this.state.volume}
+              isUIVisible={this.state.isUIVisible}
+              onPlayerClick={this.onPlayerClick}
+              onVideoEnd={this.onVideoEnd}
+              skipVideo={this.skipVideo}
+              setMuted={this.setMuted}
+            />
+
+            <BottomBar
+              channelData={currentChannelData}
+              isUIVisible={this.state.isUIVisible}
+              isMuted={this.state.isMuted}
+              volume={this.state.volume}
+              onChangeVolume={this.onChangeVolume}
+              onToggleMute={this.onToggleMute}
+              onToggleFullscreen={this.onToggleFullscreen}
+            />
+
+            <div
+              className={
+                this.state.isUIVisible
+                  ? 'opacity-100'
+                  : 'opacity-0 pointer-events-none'}
+              style={{
+                transition: this.state.isUIVisible
+                  ? 'opacity 1.2s ease-out 0.8s'
+                  : 'opacity 0.8s ease-out'
+              }}
+              >
+              <MainBar
+                channels={isReady && this.state.guide.channels}
+                currentCategory={this.state.currentCategory}
+                onSwitchCategory={this.onSwitchCategory}
+                onAboutClick={() => this.setState({welcome: true})}
+                showSettings={this.state.showSettings}
+                toggleSettings={this.toggleSettings}
+              />
+            </div>
+
+            <LogoMenu
+              isUIVisible={this.state.isUIVisible}
+              onToggleUI={this.onToggleUI}
+            />
           </div>
         }
       </div>
