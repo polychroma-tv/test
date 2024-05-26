@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next';
 import Screenfull from "screenfull";
 
 import { BrowserView, isMobile } from "react-device-detect";
+import { Link } from 'react-router-dom';
 
 import {
   MAIN_BAR_WIDTH,
@@ -194,11 +195,9 @@ class BottomBar extends React.Component {
                     <div className="flex truncate">
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                          <a target="_blank" rel="noopener noreferrer"
-                            className="hover:underline"
-                            href={currentVideoUrl} >
-                              {currentVideoTitle}
-                          </a>
+                          <Link to={`/watch/${currentVideo.fields['id']}`} className="hover:underline">
+                            {currentVideoTitle}
+                          </Link>
                         </div>
 
                         <div>
