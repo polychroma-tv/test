@@ -65,7 +65,8 @@ class BottomBar extends React.Component {
       description = 'No data available.';
     }
 
-    this.setState({ currentVideoDescription: description });
+    const truncatedDescription = description.split('.').slice(0, 3).join('.') + (description.split('.').length > 3 ? '...' : '');
+    this.setState({ currentVideoDescription: truncatedDescription });
   }
 
   onMouseMove(e) {
@@ -245,7 +246,7 @@ class BottomBar extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-2 text-xs">
+                  <div className="mt-2 text-xs description">
                     {this.state.currentVideoDescription}
                   </div>
                 </div>
