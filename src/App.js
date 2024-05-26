@@ -370,6 +370,7 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
+              onSwitchCategory={this.onSwitchCategory}
             />
 
             <div
