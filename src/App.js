@@ -149,7 +149,6 @@ class App extends React.Component {
       for (const video of videos) {
         if (video.fields.id === videoId) {
           this.setState({
-            currentCategory: channel,
             isUIVisible: true,
             welcome: false
           });
