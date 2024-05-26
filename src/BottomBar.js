@@ -42,17 +42,27 @@ class BottomBar extends React.Component {
   }
 
   async fetchVideoDescription() {
-    const { currentVideo } = this.state.channelData;
+    const { channelData } = this.state;
+    if (!channelData || !channelData.currentVideo) {
+      this.setState({ currentVideoDescription: 'No data available.' });
+      return;
+    }
+
+    const { currentVideo } = channelData;
     let description = '';
 
-    if (currentVideo.fields['playerType'] === 'html5') {
-      const response = await fetch(`https://imdb.polychroma.workers.dev/title/${currentVideo.fields['id']}`);
-      const data = await response.json();
-      description = data.plot;
-    } else if (currentVideo.fields['playerType'] === 'YouTube') {
-      const response = await fetch(`https://hls.videochro.me/info/${currentVideo.fields['id']}`);
-      const data = await response.json();
-      description = data.description;
+    try {
+      if (currentVideo.fields['playerType'] === 'html5') {
+        const response = await fetch(`https://imdb.polychroma.workers.dev/title/${currentVideo.fields['id']}`);
+        const data = await response.json();
+        description = data.plot || 'No data available.';
+      } else if (currentVideo.fields['playerType'] === 'YouTube') {
+        const response = await fetch(`https://hls.videochro.me/info/${currentVideo.fields['id']}`);
+        const data = await response.json();
+        description = data.description || 'No data available.';
+      }
+    } catch (error) {
+      description = 'No data available.';
     }
 
     this.setState({ currentVideoDescription: description });
