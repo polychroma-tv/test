@@ -126,7 +126,7 @@ class App extends React.Component {
   async handleRouteChange() {
     let category = this.props.location.pathname.split('/')[1];
     const videoId = this.props.match.params.videoId;
-  
+    
     if (videoId) {
       if (!this.state.guide) {
         await this.updateGuide();
@@ -205,17 +205,12 @@ class App extends React.Component {
 
   getStateFromLocalStorage() {
     const savedState = JSON.parse(window.localStorage.getItem('polychroma-app-state'));
-    console.debug('Retrieved saved state from local storage:', savedState);
+    console.debug('Retrived saved state from local storage:', savedState);
     return savedState;
   }
 
   onSwitchCategory(e) {
-    const categoryId = e?.currentTarget?.dataset?.id;
-    if (categoryId) {
-      this.setState({ currentCategory: categoryId });
-    } else {
-      console.error('Category ID is undefined');
-    }
+    this.setState({ currentCategory: e.currentTarget.dataset.id });
   }
 
   onToggleUI() {
@@ -375,7 +370,7 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
-              onSwitchCategory={this.onSwitchCategory} // Pass the onSwitchCategory method
+              onSwitchCategory={this.onSwitchCategory}
             />
 
             <div
