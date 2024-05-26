@@ -140,6 +140,16 @@ class App extends React.Component {
     }
   }
 
+  // Add the fetchGuide method
+  async fetchGuide() {
+    const response = await fetch('/api/get');
+    if (!response.ok) {
+      throw new Error('Failed to fetch guide');
+    }
+    const data = await response.json();
+    return data.body;
+  }
+
   async loadVideoById(videoId) {
     const guide = await this.fetchGuide();
     const channels = guide.channels;
