@@ -180,6 +180,21 @@ body.dark-mode .ios-button:hover {
   pointer-events: none;
 }
 
+.content-rating {
+  display: inline-block;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  background-color: #ffcc00;
+  color: #000;
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.additional-info {
+  display: flex;
+  gap: 1em;
+}
+
 .description {
   display: -webkit-box;
   -webkit-line-clamp: 3;
