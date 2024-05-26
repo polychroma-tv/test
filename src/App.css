@@ -186,6 +186,7 @@ body.dark-mode .ios-button:hover {
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  width: 200%;
 }
 
 @media (min-aspect-ratio: 16/9) {
