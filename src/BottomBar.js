@@ -150,11 +150,14 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'] &&
         currentVideo.fields['channelUrl'][0];
 
-      // Extract the filename without extension from currentVideoUrl
-      const { playerType, url } = currentVideo.fields;
-      if (playerType === 'HTML5') {
-        const urlObj = new URL(url);
-        const filename = urlObj.pathname.split('/').pop().split('.').slice(0, -1).join('.');
+      let currentVideoUrl;
+
+      if (currentVideo.fields.playerType === 'YouTube') {
+        const videoId = currentVideo.fields['id'];
+        currentVideoUrl = `/title/${videoId}`;
+      } else {
+        const url = new URL(currentVideo.fields['url']);
+        const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
         currentVideoUrl = `/title/${filename}`;
       }
       
