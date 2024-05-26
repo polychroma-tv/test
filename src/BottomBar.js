@@ -3,7 +3,6 @@ import { withTranslation } from 'react-i18next';
 import Screenfull from "screenfull";
 
 import { BrowserView, isMobile } from "react-device-detect";
-import { Link } from 'react-router-dom';
 
 import {
   MAIN_BAR_WIDTH,
@@ -143,17 +142,26 @@ class BottomBar extends React.Component {
     if (this.state.channelData) {
       ({ time1Str, time2Str } = this.getFormatedTimes()); 
       ({ currentVideo, nextVideo } = this.state.channelData);
+      
+      channelTitle =
+        currentVideo.fields['channelTitle'] &&
+        currentVideo.fields['channelTitle'][0];
+      channelUrl =
+        currentVideo.fields['channelUrl'] &&
+        currentVideo.fields['channelUrl'][0];
 
-      if (currentVideo) {
-        channelTitle = currentVideo.fields['channelTitle'] && currentVideo.fields['channelTitle'][0];
-        channelUrl = currentVideo.fields['channelUrl'] && currentVideo.fields['channelUrl'][0];
-        currentVideoUrl = currentVideo.fields['url'];
-        currentVideoTitle = stripEmojis(currentVideo.fields['title']);
-        nextVideoTitle = stripEmojis(nextVideo.fields['title']);
-      }
+      // Extract the filename without extension from currentVideoUrl
+      const url = new URL(currentVideo.fields['url']);
+      const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
+      currentVideoUrl = `https://mydomain/title/${filename}`;
+
+      currentVideoTitle = stripEmojis(currentVideo.fields['title']);
+      nextVideoTitle = stripEmojis(nextVideo.fields['title']);
 
       const remainingTimeSec = (new Date(this.state.channelData.time2) - new Date()) / 1000;
-      shouldShowNextVideo = nextVideoTitle && remainingTimeSec < 10 * 60;
+      shouldShowNextVideo = 
+        nextVideoTitle &&
+        remainingTimeSec < 10 * 60
     }
 
     // let latlong, latlongLabel;
@@ -189,9 +197,11 @@ class BottomBar extends React.Component {
                     <div className="flex truncate">
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                          <Link to={`/watch/${currentVideo.fields['id']}`} className="hover:underline">
-                            {currentVideoTitle}
-                          </Link>
+                          <a target="_blank" rel="noopener noreferrer"
+                            className="hover:underline"
+                            href={currentVideoUrl} >
+                              {currentVideoTitle}
+                          </a>
                         </div>
 
                         <div>
