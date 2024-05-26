@@ -1,6 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import Screenfull from "screenfull";
+import { withRouter } from 'react-router-dom'; // Add this import
 
 import { BrowserView, isMobile } from "react-device-detect";
 
@@ -150,6 +151,7 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'] &&
         currentVideo.fields['channelUrl'][0];
 
+      // Extract the filename without extension from currentVideoUrl
       if (currentVideo.fields['playerType'] === 'html5') {
         const url = new URL(currentVideo.fields['url']);
         const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
@@ -200,16 +202,14 @@ class BottomBar extends React.Component {
                     <div className="flex truncate">
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                          <a target="_blank" rel="noopener noreferrer"
-                            className="hover:underline"
-                            href={currentVideoUrl} >
-                              {currentVideoTitle}
-                          </a>
+                          {/* Replace the <a> tag with a <button> and use this.props.history.push for navigation */}
+                          <button className="hover:underline" onClick={() => this.props.history.push(`/title/${currentVideoUrl}`)}>
+                            {currentVideoTitle}
+                          </button>
                         </div>
 
                         <div>
-                          <a target="_blank" rel="noopener noreferrer"
-                            className=" hover:underline"
+                          <a className=" hover:underline"
                             href={channelUrl} >
                               {channelTitle}
                           </a>
@@ -309,4 +309,4 @@ class BottomBar extends React.Component {
 }
 
 
-export default withTranslation()(BottomBar);
+export default withRouter(withTranslation()(BottomBar));
