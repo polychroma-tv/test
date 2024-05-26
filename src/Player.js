@@ -55,7 +55,7 @@ class Player extends React.Component {
     updateChannelData() {
         const channelData = this.props.channelData;
         if (channelData && channelData.currentVideo) {
-            const videoId = channelData.currentVideo.fields['id'];
+            const videoUrl = channelData.currentVideo.fields['url'];
             const videoEnd = channelData.currentVideo.fields.duration * 60;
 
             const guideCreatedAt = new Date(this.props.guideCreatedAt);
@@ -65,7 +65,7 @@ class Player extends React.Component {
             // Delay update of Player data to give time to animation transition
             setTimeout(() => {
                 this.setState({
-                    videoId,
+                    videoUrl,
                     playerOpts: {
                         playerVars: {
                             ...defaultPlayerVars,
@@ -88,7 +88,7 @@ class Player extends React.Component {
         if (prevProps.channelData !== this.props.channelData) {
             this.setState({
                 playerStatus: undefined,
-                videoId: undefined
+                videoUrl: undefined
             })
 
             this.updateChannelData();
@@ -226,7 +226,7 @@ class Player extends React.Component {
 
     render() {
         const { isUIVisible, t } = this.props;
-        const { playerOpts, videoId, playerStatus } = this.state;
+        const { playerOpts, videoUrl, playerStatus } = this.state;
 
         return (
             <div className="overflow-hidden">
@@ -263,7 +263,7 @@ class Player extends React.Component {
                     </div>
 
                     {
-                        videoId &&
+                        videoUrl &&
                         <div className={`video-foreground
                         transition-opacity ease-in-out duration-${VIDEO_TRANSITION_MS}
                         ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
@@ -271,7 +271,7 @@ class Player extends React.Component {
                             {
                                 this.props.channelData.currentVideo.fields.playerType === 'YouTube' ?
                                     <YouTube
-                                        videoId={videoId}
+                                        videoId={videoUrl}
                                         opts={playerOpts}
                                         onEnd={this.onEnd}
                                         onError={this.onError}
@@ -282,7 +282,7 @@ class Player extends React.Component {
                                     /> :
                                     <video
                                         className="video-foreground"
-                                        src={videoId}
+                                        src={videoUrl}
                                         controls
                                         autoPlay
                                         muted={this.props.isMuted}
