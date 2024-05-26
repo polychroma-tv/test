@@ -128,6 +128,9 @@ class App extends React.Component {
     const videoId = this.props.match.params.videoId;
     
     if (videoId) {
+      if (!this.state.guide) {
+        await this.updateGuide();
+      }
       await this.loadVideoById(videoId);
     } else {
       if (!category) {
@@ -143,6 +146,11 @@ class App extends React.Component {
   
   async loadVideoById(videoId) {
     const { guide } = this.state;
+    if (!guide) {
+      console.error('Guide is not available');
+      return;
+    }
+
     const channels = guide.channels;
     let found = false;
     for (const channel in channels) {
