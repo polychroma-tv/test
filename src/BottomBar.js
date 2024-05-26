@@ -1,10 +1,8 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import Screenfull from "screenfull";
-import { withRouter } from 'react-router-dom'; // Add this import
-
+import { withRouter } from 'react-router-dom';
 import { BrowserView, isMobile } from "react-device-detect";
-
 import {
   MAIN_BAR_WIDTH,
   BOTTOM_BAR_HEIGHT,
@@ -13,13 +11,9 @@ import {
   CHROMA_EASING_BEZIER,
   CHROMA_EASING_TIMING,
 } from './constants.js';
-
 import { throttle, stripEmojis } from './utils.js';
-
-import IconVolume from './assets/IconVolume.js'
-import IconFullScreen from './assets/IconFullScreen.js'
-// import IconGlobe from './assets/IconGlobe.js'
-
+import IconVolume from './assets/IconVolume.js';
+import IconFullScreen from './assets/IconFullScreen.js';
 
 class BottomBar extends React.Component {
   autoCloseTimeout;
@@ -52,15 +46,16 @@ class BottomBar extends React.Component {
     let description = '';
 
     try {
+      let data;
       if (currentVideo.fields['playerType'] === 'html5') {
         const response = await fetch(`https://imdb.polychroma.workers.dev/title/${currentVideo.fields['id']}`);
-        const data = await response.json();
-        description = data.plot || 'No data available.';
+        data = await response.json();
       } else if (currentVideo.fields['playerType'] === 'YouTube') {
         const response = await fetch(`https://hls.videochro.me/info/${currentVideo.fields['id']}`);
-        const data = await response.json();
-        description = data.description || 'No data available.';
+        data = await response.json();
       }
+      description = data?.plot || data?.description || 'No data available.';
+      description = truncateAtPeriod(description);
     } catch (error) {
       description = 'No data available.';
     }
@@ -79,7 +74,7 @@ class BottomBar extends React.Component {
   }
 
   updateMenuAutocloseBehavior() {
-    if (this.props.isUIVisible)  {
+    if (this.props.isUIVisible) {
       document.removeEventListener(
         'mousemove',
         this.throttleMouseMove,
@@ -89,7 +84,7 @@ class BottomBar extends React.Component {
         open: false
       })
 
-      setTimeout( () => {
+      setTimeout(() => {
         document.addEventListener(
           'mousemove', 
           this.throttleMouseMove,
@@ -110,12 +105,12 @@ class BottomBar extends React.Component {
       }, () => {
         setTimeout(() => {
           this.setState({
-            channelData: this.props.channelData // Update state with new channelData
+            channelData: this.props.channelData
           }, () => {
             this.delayStateUpdate();
             this.fetchVideoDescription();
           });
-        }, LABELS_TRANSITION_MS / 2); // Delay for half the transition duration
+        }, LABELS_TRANSITION_MS / 2);
       });
     }
 
@@ -185,7 +180,6 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'] &&
         currentVideo.fields['channelUrl'][0];
 
-      // Use the same method for both html5 and YouTube
       currentVideoUrl = `title/${currentVideo.fields['id']}`;
       
       currentVideoTitle = stripEmojis(currentVideo.fields['title']);
@@ -196,10 +190,6 @@ class BottomBar extends React.Component {
         nextVideoTitle &&
         remainingTimeSec < 10 * 60
     }
-
-    // let latlong, latlongLabel;
-    // latlong = currentVideo.fields['latlong'];
-    // latlongLabel = latlong && latlong.split(',').map(i => i+'°').join(' ');
 
     return (
         <div className={`
@@ -230,22 +220,21 @@ class BottomBar extends React.Component {
                     <div className="flex truncate">
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                          {/* Replace the <a> tag with a <button> and use this.props.history.push for navigation */}
                           <button className="hover:underline" onClick={() => this.props.history.push(`/${currentVideoUrl}`)}>
                             {currentVideoTitle}
                           </button>
                         </div>
 
                         <div>
-                          <a className=" hover:underline"
-                            href={channelUrl} >
+                          <a className="hover:underline"
+                            href={channelUrl}>
                               {channelTitle}
                           </a>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-2 text-xs description">
+                  <div className="mt-2 text-xs description truncate">
                     {this.state.currentVideoDescription}
                   </div>
                 </div>
@@ -253,7 +242,6 @@ class BottomBar extends React.Component {
                 {
                   shouldShowNextVideo &&
                   <BrowserView viewClassName="w-5/12 pr-8 flex flex-col text-gray-400">
-                      {/* <div className="mb-1 mt-2 h-2px w-full bg-gray-300"/> */}
                       <div className="mt-2 text-xs font-extrabold whitespace-no-wrap mb-1">
                         { t('later') }
                       </div>
@@ -323,6 +311,5 @@ class BottomBar extends React.Component {
     );
   }
 }
-
 
 export default withRouter(withTranslation()(BottomBar));
