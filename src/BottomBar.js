@@ -42,6 +42,8 @@ class BottomBar extends React.Component {
       }
     }
 
+    this.videoPlayerRef = React.createRef(); // Add this line
+
     this.delayStateUpdate();
     this.updateMenuAutocloseBehavior();
   }
@@ -258,6 +260,12 @@ class BottomBar extends React.Component {
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
                           {/* Replace the <a> tag with a <button> and use this.props.history.push for navigation */}
                           <button className="hover:underline" onClick={() => {
+                            const videoPlayer = this.videoPlayerRef.current;
+                            if (videoPlayer) {
+                              videoPlayer.src = currentVideo.fields['url'];
+                              videoPlayer.currentTime = 0;
+                              videoPlayer.play();
+                            }
                             this.props.history.push(`/${currentVideoUrl}`);
                             this.props.onSwitchCategory();
                           }}>
