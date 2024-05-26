@@ -126,8 +126,9 @@ class App extends React.Component {
   async handleRouteChange() {
     let category = this.props.location.pathname.split('/')[1];
     const videoId = this.props.match.params.videoId;
+    
     if (videoId) {
-      this.loadVideoById(videoId);
+      await this.loadVideoById(videoId);
     } else {
       if (!category) {
         const prevState = this.getStateFromLocalStorage();
@@ -149,6 +150,7 @@ class App extends React.Component {
       for (const video of videos) {
         if (video.fields.id === videoId) {
           this.setState({
+            currentCategory: null, // Ensure no category is set
             isUIVisible: true,
             welcome: false
           });
