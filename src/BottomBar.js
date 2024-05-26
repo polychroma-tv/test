@@ -34,7 +34,12 @@ class BottomBar extends React.Component {
       loading: true,
       open: false,
       showVolumeSlider: false,
-      currentVideoDescription: ''
+      currentVideoDescription: '',
+      additionalInfo: {
+        contentRating: '',
+        genre: '',
+        year: ''
+      }
     }
 
     this.delayStateUpdate();
@@ -50,12 +55,22 @@ class BottomBar extends React.Component {
 
     const { currentVideo } = channelData;
     let description = '';
+    let additionalInfo = {
+      contentRating: '',
+      genre: '',
+      year: ''
+    };
 
     try {
       if (currentVideo.fields['playerType'] === 'html5') {
         const response = await fetch(`https://imdb.polychroma.workers.dev/title/${currentVideo.fields['id']}`);
         const data = await response.json();
         description = data.plot || 'No data available.';
+        additionalInfo = {
+          contentRating: data.contentRating || 'Not Rated',
+          genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
+          year: data.year || ''
+        };
       } else if (currentVideo.fields['playerType'] === 'YouTube') {
         const response = await fetch(`https://hls.videochro.me/info/${currentVideo.fields['id']}`);
         const data = await response.json();
@@ -65,7 +80,10 @@ class BottomBar extends React.Component {
       description = 'No data available.';
     }
 
-    this.setState({ currentVideoDescription: this.processDescription(description) });
+    this.setState({ 
+      currentVideoDescription: this.processDescription(description),
+      additionalInfo
+    });
   }
 
   processDescription(description) {
@@ -252,6 +270,11 @@ class BottomBar extends React.Component {
                         </div>
                       </div>
                     </div>
+                  </div>
+                  <div className="mt-2 text-xs additional-info">
+                    {this.state.additionalInfo.contentRating && <div>Rating: {this.state.additionalInfo.contentRating}</div>}
+                    {this.state.additionalInfo.genre && <div>Genre: {this.state.additionalInfo.genre}</div>}
+                    {this.state.additionalInfo.year && <div>Year: {this.state.additionalInfo.year}</div>}
                   </div>
                   <div className="mt-2 text-xs description">
                     {this.state.currentVideoDescription}
