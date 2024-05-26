@@ -223,6 +223,10 @@ class BottomBar extends React.Component {
         remainingTimeSec < 10 * 60
     }
 
+    // let latlong, latlongLabel;
+    // latlong = currentVideo.fields['latlong'];
+    // latlongLabel = latlong && latlong.split(',').map(i => i+'°').join(' ');
+
     return (
         <div className={`
             bottom-bar bg-white z-1 fixed left-0 bottom-0 w-full
@@ -252,9 +256,10 @@ class BottomBar extends React.Component {
                     <div className="flex truncate">
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                          <button className="hover:underline" onClick={(e) => {
+                          {/* Replace the <a> tag with a <button> and use this.props.history.push for navigation */}
+                          <button className="hover:underline" onClick={() => {
                             this.props.history.push(`/${currentVideoUrl}`);
-                            this.props.onSwitchCategory(e);
+                            this.props.onSwitchCategory();
                           }}>
                             {currentVideoTitle}
                           </button>
@@ -282,6 +287,7 @@ class BottomBar extends React.Component {
                 {
                   shouldShowNextVideo &&
                   <BrowserView viewClassName="w-5/12 pr-8 flex flex-col text-gray-400">
+                      {/* <div className="mb-1 mt-2 h-2px w-full bg-gray-300"/> */}
                       <div className="mt-2 text-xs font-extrabold whitespace-no-wrap mb-1">
                         { t('later') }
                       </div>
