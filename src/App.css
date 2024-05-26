@@ -138,6 +138,31 @@ input:checked + .slider .icon.moon {
   opacity: 0;
 }
 
+.icon.lang {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform .4s, opacity .4s;
+}
+
+input:checked + .slider .icon.lang:first-child {
+  transform: translateY(-50%);
+  opacity: 0;
+}
+
+input:checked + .slider .icon.lang:last-child {
+  transform: translateY(-50%);
+  opacity: 1;
+}
+
+.slider .icon.lang:first-child {
+  opacity: 1;
+}
+
+.slider .icon.lang:last-child {
+  opacity: 0;
+}
+
 .ios-button {
   display: inline-block;
   padding: 10px 20px;
