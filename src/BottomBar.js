@@ -150,16 +150,16 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'] &&
         currentVideo.fields['channelUrl'][0];
 
-      let currentVideoUrl;
+      const url = new URL(currentVideo.fields['url']);
+      let filename;
 
-      if (currentVideo.fields.playerType === 'YouTube') {
-        const videoId = currentVideo.fields['id'];
-        currentVideoUrl = `/title/${videoId}`;
+      if (url.hostname.includes('youtube.com')) {
+        filename = url.pathname.split('/').filter(part => part === 'embed')[1];
       } else {
-        const url = new URL(currentVideo.fields['url']);
-        const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
-        currentVideoUrl = `/title/${filename}`;
+        filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
       }
+
+      currentVideoUrl = `/title/${filename}`;
       
       currentVideoTitle = stripEmojis(currentVideo.fields['title']);
       nextVideoTitle = stripEmojis(nextVideo.fields['title']);
