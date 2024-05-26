@@ -151,9 +151,12 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'][0];
 
       // Extract the filename without extension from currentVideoUrl
-      const url = new URL(currentVideo.fields['url']);
-      const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
-      currentVideoUrl = `/title/${filename}`;
+      const { playerType, url } = currentVideo.fields;
+      if (playerType === 'HTML5') {
+        const urlObj = new URL(url);
+        const filename = urlObj.pathname.split('/').pop().split('.').slice(0, -1).join('.');
+        currentVideoUrl = `/title/${filename}`;
+      }
       
       currentVideoTitle = stripEmojis(currentVideo.fields['title']);
       nextVideoTitle = stripEmojis(nextVideo.fields['title']);
