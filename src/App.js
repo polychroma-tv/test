@@ -169,6 +169,7 @@ class App extends React.Component {
 
       if (type === 'YouTube') {
         this.playerRef.current.internalPlayer.loadVideoById(videoId, 0);
+        this.playerRef.current.play();
       } else if (type === 'html5') {
         this.playerRef.current.src = src;
         this.playerRef.current.play();
