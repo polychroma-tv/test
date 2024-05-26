@@ -266,6 +266,7 @@ class BottomBar extends React.Component {
                               videoPlayer.currentTime = 0;
                               videoPlayer.play();
                             }
+                            this.props.onVideoChange(currentVideo.fields['url']); // Pass the URL to the Player component
                             this.props.history.push(`/${currentVideoUrl}`);
                           }}>
                             {currentVideoTitle}
