@@ -145,27 +145,36 @@ class App extends React.Component {
   }
   
   async loadVideoById(videoId) {
-    const response = await fetch('https://polychroma.tv/wp-json/tv/items');
-    const items = await response.json();
-    const videoItem = items.find(item => item.id === videoId);
-    
-    if (!videoItem) {
-      console.error('Video not found');
-      return;
-    }
+    try {
+      const response = await fetch('https://polychroma.tv/wp-json/tv/items');
+      const { items } = await response.json(); // Adjusted to match the expected structure
 
-    const { src, type } = videoItem;
-    this.setState({
-      currentCategory: null,
-      isUIVisible: true,
-      welcome: false
-    });
+      if (!Array.isArray(items)) {
+        throw new Error('Expected an array of items');
+      }
 
-    if (type === 'YouTube') {
-      this.playerRef.current.internalPlayer.loadVideoById(videoId, 0);
-    } else if (type === 'html5') {
-      this.playerRef.current.src = src;
-      this.playerRef.current.play();
+      const videoItem = items.find(item => item.id === videoId);
+
+      if (!videoItem) {
+        console.error('Video not found');
+        return;
+      }
+
+      const { src, type } = videoItem;
+      this.setState({
+        currentCategory: null,
+        isUIVisible: true,
+        welcome: false
+      });
+
+      if (type === 'YouTube') {
+        this.playerRef.current.internalPlayer.loadVideoById(videoId, 0);
+      } else if (type === 'html5') {
+        this.playerRef.current.src = src;
+        this.playerRef.current.play();
+      }
+    } catch (error) {
+      console.error('Error loading video by ID:', error);
     }
   }
 
