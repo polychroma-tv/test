@@ -106,12 +106,13 @@ class BottomBar extends React.Component {
 
     if (prevProps.channelData !== this.props.channelData) {
       this.setState({
-        loading: true
-      })
-
-      // Delay updating content to give time for transition
-      this.delayStateUpdate();
-      this.fetchVideoDescription();
+        loading: true,
+        channelData: this.props.channelData // Update state with new channelData
+      }, () => {
+        // Delay updating content to give time for transition
+        this.delayStateUpdate();
+        this.fetchVideoDescription();
+      });
     }
 
     if (prevState.open !== this.state.open) {
