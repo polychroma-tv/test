@@ -83,6 +83,47 @@ class App extends React.Component {
       isFullscreen: false
     });
 
+    this.handleRouteChange();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      this.handleRouteChange();
+    }
+
+    if (prevState.currentCategory !== this.state.currentCategory) {
+      if (this.state.guide) {
+        const currentChannelData = this.state.guide.channels[this.state.currentCategory];
+        if (Date.now() > currentChannelData.time2) {
+          // Changing channel but current video already ended, rebuild guide
+          this.updateGuide();
+        }
+
+        // Guess not needed anymore with automatic video events from GA4?
+        // Analytics.event('impression', {
+        //   currentId: currentChannelData.currentVideo.fields.id,
+        //   currentTitle: currentChannelData.currentVideo.fields.title
+        // });
+
+        // Don't count on startup
+        if (prevState.currentCategory) {
+          Analytics.event('category_skipped');
+        }
+      }
+
+      this.updateURL();
+    }
+
+    if (this.state.isUIVisible !== prevState.isUIVisible
+        || this.state.isMuted !== prevState.isMuted) {
+        Analytics.setUserProperty({
+          isUIVisible: this.state.isUIVisible,
+          isMuted: this.state.isMuted
+        });
+    }
+  }
+
+  async handleRouteChange() {
     let category = this.props.location.pathname.split('/')[1];
     const videoId = this.props.match.params.videoId;
     if (videoId) {
@@ -150,39 +191,6 @@ class App extends React.Component {
     const savedState = JSON.parse(window.localStorage.getItem('polychroma-app-state'));
     console.debug('Retrived saved state from local storage:', savedState);
     return savedState;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentCategory !== this.state.currentCategory) {
-      if (this.state.guide) {
-        const currentChannelData = this.state.guide.channels[this.state.currentCategory];
-        if (Date.now() > currentChannelData.time2) {
-          // Changing channel but current video already ended, rebuild guide
-          this.updateGuide();
-        }
-
-        // Guess not needed anymore with automatic video events from GA4?
-        // Analytics.event('impression', {
-        //   currentId: currentChannelData.currentVideo.fields.id,
-        //   currentTitle: currentChannelData.currentVideo.fields.title
-        // });
-
-        // Don't count on startup
-        if (prevState.currentCategory) {
-          Analytics.event('category_skipped');
-        }
-      }
-
-      this.updateURL();
-    }
-
-    if (this.state.isUIVisible !== prevState.isUIVisible
-        || this.state.isMuted !== prevState.isMuted) {
-        Analytics.setUserProperty({
-          isUIVisible: this.state.isUIVisible,
-          isMuted: this.state.isMuted
-        });
-    }
   }
 
   onSwitchCategory(e) {
