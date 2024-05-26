@@ -85,11 +85,12 @@ class Player extends React.Component {
             this.updateVolume();
         }
 
-        if (prevProps.channelData !== this.props.channelData || prevProps.videoUrl !== this.props.videoUrl) {
+        if (prevProps.channelData !== this.props.channelData) {
             this.setState({
                 playerStatus: undefined,
                 videoUrl: undefined
             })
+
             this.updateChannelData();
         }
     }
