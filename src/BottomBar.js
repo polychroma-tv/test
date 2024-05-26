@@ -257,7 +257,10 @@ class BottomBar extends React.Component {
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
                           {/* Replace the <a> tag with a <button> and use this.props.history.push for navigation */}
-                          <button className="hover:underline" onClick={() => this.props.history.push(`/${currentVideoUrl}`)}>
+                          <button className="hover:underline" onClick={() => {
+                            this.props.history.push(`/${currentVideoUrl}`);
+                            this.props.onSwitchCategory();
+                          }}>
                             {currentVideoTitle}
                           </button>
                         </div>
