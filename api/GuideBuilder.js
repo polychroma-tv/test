@@ -127,8 +127,14 @@ class GuideBuilder {
     }
     
     return {
-      currentVideo: currentVideo,
-      nextVideo: nextVideo,
+      currentVideo: {
+        ...currentVideo,
+        playerType: currentVideo.fields.playerType
+      },
+      nextVideo: {
+        ...nextVideo,
+        playerType: nextVideo.fields.playerType
+      },
       videoStart: videoStartSec,
       ...times
     };
