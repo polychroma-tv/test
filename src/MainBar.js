@@ -20,7 +20,8 @@ class MainBar extends React.Component {
         this.state = {
             fadeOutDiffs: false,
             showSettings: false,
-            darkMode: true // Set initial state to dark mode with toggle on
+            darkMode: true, // Set initial state to dark mode with toggle on
+            language: 'en' // Set initial state to English
         }
 
         // Set the initial body class
@@ -49,6 +50,12 @@ class MainBar extends React.Component {
             document.body.classList.remove('dark-mode');
         }
         this.setState({ darkMode: newMode });
+    }
+
+    setLanguage = () => {
+        const newLanguage = this.state.language === 'en' ? 'fr' : 'en';
+        this.props.i18n.changeLanguage(newLanguage);
+        this.setState({ language: newLanguage });
     }
 
     clearCache = () => {
@@ -89,6 +96,16 @@ class MainBar extends React.Component {
                                         <span className="slider round">
                                             <FaSun className="icon sun" />
                                             <FaMoon className="icon moon" />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div className="settings-item">
+                                    <span>Language</span>
+                                    <label className="toggle-switch">
+                                        <input type="checkbox" onChange={this.setLanguage} checked={this.state.language === 'fr'} />
+                                        <span className="slider round">
+                                            <span className="icon lang">EN</span>
+                                            <span className="icon lang">FR</span>
                                         </span>
                                     </label>
                                 </div>
