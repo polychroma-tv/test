@@ -245,7 +245,7 @@ class BottomBar extends React.Component {
                       </div>
                     </div>
                   </div>
-                  <div className="mt-2 text-xs">
+                  <div className="mt-2 text-xs description">
                     {this.state.currentVideoDescription}
                   </div>
                 </div>
