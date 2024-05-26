@@ -224,7 +224,10 @@ class Player extends React.Component {
     }
 
     render() {
-        const { isUIVisible, t } = this.props;
+        const { isUIVisible, t, channelData } = this.props;
+        if (!channelData || !channelData.currentVideo) {
+            return <div>Error: Channel data is missing</div>;
+        }
         const { playerOpts, videoUrl, playerStatus } = this.state;
 
         return (
