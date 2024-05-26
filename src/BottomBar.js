@@ -143,23 +143,17 @@ class BottomBar extends React.Component {
     if (this.state.channelData) {
       ({ time1Str, time2Str } = this.getFormatedTimes()); 
       ({ currentVideo, nextVideo } = this.state.channelData);
-      
-      channelTitle =
-        currentVideo.fields['channelTitle'] &&
-        currentVideo.fields['channelTitle'][0];
-      channelUrl =
-        currentVideo.fields['channelUrl'] &&
-        currentVideo.fields['channelUrl'][0];
 
-      currentVideoUrl = currentVideo.fields['url'];
-
-      currentVideoTitle = stripEmojis(currentVideo.fields['title']);
-      nextVideoTitle = stripEmojis(nextVideo.fields['title']);
+      if (currentVideo) {
+        channelTitle = currentVideo.fields['channelTitle'] && currentVideo.fields['channelTitle'][0];
+        channelUrl = currentVideo.fields['channelUrl'] && currentVideo.fields['channelUrl'][0];
+        currentVideoUrl = currentVideo.fields['url'];
+        currentVideoTitle = stripEmojis(currentVideo.fields['title']);
+        nextVideoTitle = stripEmojis(nextVideo.fields['title']);
+      }
 
       const remainingTimeSec = (new Date(this.state.channelData.time2) - new Date()) / 1000;
-      shouldShowNextVideo = 
-        nextVideoTitle &&
-        remainingTimeSec < 10 * 60
+      shouldShowNextVideo = nextVideoTitle && remainingTimeSec < 10 * 60;
     }
 
     // let latlong, latlongLabel;
