@@ -45,7 +45,7 @@ class GuideBuilder {
         },
         videos: playlist.playlist.map(video => ({
           fields: {
-            id: video.src,
+            id: video.playerType === 'HTML5' ? getFilename(video.src) : video.src,
             title: video.name,
             duration: video.duration / 60, // Convert seconds to minutes
             url: video.src,
@@ -138,6 +138,10 @@ class GuideBuilder {
       videoStart: videoStartSec,
       ...times
     };
+  }
+
+  static getFilename(url) {
+    return url.split('/').pop().split('.')[0];
   }
 }
     
