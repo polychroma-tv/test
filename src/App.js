@@ -145,29 +145,27 @@ class App extends React.Component {
   }
   
   async loadVideoById(videoId) {
-    const { guide } = this.state;
-    if (!guide) {
-      console.error('Guide is not available');
+    const response = await fetch('https://polychroma.tv/wp-json/tv/items');
+    const items = await response.json();
+    const videoItem = items.find(item => item.id === videoId);
+    
+    if (!videoItem) {
+      console.error('Video not found');
       return;
     }
 
-    const channels = guide.channels;
-    let found = false;
-    for (const channel in channels) {
-      const videos = channels[channel].videos;
-      for (const video of videos) {
-        if (video.fields.id === videoId) {
-          this.setState({
-            currentCategory: null, // Ensure no category is set
-            isUIVisible: true,
-            welcome: false
-          });
-          this.playerRef.current.internalPlayer.loadVideoById(videoId, 0);
-          found = true;
-          break;
-        }
-      }
-      if (found) break;
+    const { src, type } = videoItem;
+    this.setState({
+      currentCategory: null,
+      isUIVisible: true,
+      welcome: false
+    });
+
+    if (type === 'YouTube') {
+      this.playerRef.current.internalPlayer.loadVideoById(videoId, 0);
+    } else if (type === 'html5') {
+      this.playerRef.current.src = src;
+      this.playerRef.current.play();
     }
   }
 
