@@ -83,100 +83,19 @@ class App extends React.Component {
       isFullscreen: false
     });
 
-    this.handleRouteChange();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.handleRouteChange();
-    }
-
-    if (prevState.currentCategory !== this.state.currentCategory) {
-      if (this.state.guide) {
-        const currentChannelData = this.state.guide.channels[this.state.currentCategory];
-        if (Date.now() > currentChannelData.time2) {
-          // Changing channel but current video already ended, rebuild guide
-          this.updateGuide();
-        }
-
-        // Guess not needed anymore with automatic video events from GA4?
-        // Analytics.event('impression', {
-        //   currentId: currentChannelData.currentVideo.fields.id,
-        //   currentTitle: currentChannelData.currentVideo.fields.title
-        // });
-
-        // Don't count on startup
-        if (prevState.currentCategory) {
-          Analytics.event('category_skipped');
-        }
-      }
-
-      this.updateURL();
-    }
-
-    if (this.state.isUIVisible !== prevState.isUIVisible
-        || this.state.isMuted !== prevState.isMuted) {
-        Analytics.setUserProperty({
-          isUIVisible: this.state.isUIVisible,
-          isMuted: this.state.isMuted
-        });
-    }
-  }
-
-  async handleRouteChange() {
     let category = this.props.location.pathname.split('/')[1];
-    const videoId = this.props.match.params.videoId;
-    
-    if (videoId) {
-      if (!this.state.guide) {
-        await this.updateGuide();
+    if (!category) {
+      const prevState = this.getStateFromLocalStorage();
+      if (prevState) {
+        category = prevState.currentCategory;
       }
-      await this.loadVideoById(videoId);
-    } else {
-      if (!category) {
-        const prevState = this.getStateFromLocalStorage();
-        if (prevState) {
-          category = prevState.currentCategory;
-        }
-      }
-      this.setState({ currentCategory: category });
-      this.updateGuide();
     }
-  }
-  
-  async loadVideoById(videoId) {
-    try {
-      const response = await fetch('https://polychroma.tv/wp-json/tv/items');
-      const { items } = await response.json(); // Adjusted to match the expected structure
 
-      if (!Array.isArray(items)) {
-        throw new Error('Expected an array of items');
-      }
+    this.setState({
+      currentCategory: category
+    });
 
-      const videoItem = items.find(item => item.id === videoId);
-
-      if (!videoItem) {
-        console.error('Video not found');
-        return;
-      }
-
-      const { src, type } = videoItem;
-      this.setState({
-        currentCategory: null,
-        isUIVisible: true,
-        welcome: false
-      });
-
-      if (type === 'YouTube') {
-        this.playerRef.current.internalPlayer.loadVideoById(videoId, 0);
-        this.playerRef.current.play();
-      } else if (type === 'html5') {
-        this.playerRef.current.src = src;
-        this.playerRef.current.play();
-      }
-    } catch (error) {
-      console.error('Error loading video by ID:', error);
-    }
+    this.updateGuide();
   }
 
   updateURL() {
@@ -207,6 +126,39 @@ class App extends React.Component {
     const savedState = JSON.parse(window.localStorage.getItem('polychroma-app-state'));
     console.debug('Retrived saved state from local storage:', savedState);
     return savedState;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentCategory !== this.state.currentCategory) {
+      if (this.state.guide) {
+        const currentChannelData = this.state.guide.channels[this.state.currentCategory];
+        if (Date.now() > currentChannelData.time2) {
+          // Changing channel but current video already ended, rebuild guide
+          this.updateGuide();
+        }
+
+        // Guess not needed anymore with automatic video events from GA4?
+        // Analytics.event('impression', {
+        //   currentId: currentChannelData.currentVideo.fields.id,
+        //   currentTitle: currentChannelData.currentVideo.fields.title
+        // });
+
+        // Don't count on startup
+        if (prevState.currentCategory) {
+          Analytics.event('category_skipped');
+        }
+      }
+
+      this.updateURL();
+    }
+
+    if (this.state.isUIVisible !== prevState.isUIVisible
+        || this.state.isMuted !== prevState.isMuted) {
+        Analytics.setUserProperty({
+          isUIVisible: this.state.isUIVisible,
+          isMuted: this.state.isMuted
+        });
+    }
   }
 
   onSwitchCategory(e) {
@@ -370,7 +322,6 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
-              onSwitchCategory={this.onSwitchCategory}
             />
 
             <div
