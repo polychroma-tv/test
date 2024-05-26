@@ -180,6 +180,14 @@ body.dark-mode .ios-button:hover {
   pointer-events: none;
 }
 
+.description {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (min-aspect-ratio: 16/9) {
   .video-foreground { height: 300%; top: -100%; width: 100%; left: auto; }
 }
