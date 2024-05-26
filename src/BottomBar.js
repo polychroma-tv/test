@@ -65,7 +65,15 @@ class BottomBar extends React.Component {
       description = 'No data available.';
     }
 
-    this.setState({ currentVideoDescription: description });
+    this.setState({ currentVideoDescription: this.processDescription(description) });
+  }
+
+  processDescription(description) {
+    const periodIndex = description.indexOf('.');
+    if (periodIndex !== -1) {
+      return description.substring(0, periodIndex + 1);
+    }
+    return description;
   }
 
   onMouseMove(e) {
