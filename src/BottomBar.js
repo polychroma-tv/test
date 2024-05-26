@@ -65,7 +65,8 @@ class BottomBar extends React.Component {
 
     try {
       if (currentVideo.fields['playerType'] === 'html5') {
-        const response = await fetch(`https://imdb.polychroma.workers.dev/title/${currentVideo.fields['id']}`);
+        const sanitizedId = currentVideo.fields['id'].split('-')[0];
+        const response = await fetch(`https://imdb.polychroma.workers.dev/title/${sanitizedId}`);
         const data = await response.json();
         description = data.plot || 'No data available.';
         additionalInfo = {
