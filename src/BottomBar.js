@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import Screenfull from "screenfull";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom'; // Add this import
 
 import { BrowserView, isMobile } from "react-device-detect";
 
@@ -157,7 +157,7 @@ class BottomBar extends React.Component {
         const filename = url.pathname.split('/').pop().split('.').slice(0, -1).join('.');
         currentVideoUrl = filename;
       } else if (currentVideo.fields['playerType'] === 'YouTube') {
-        currentVideoUrl = `/title/${currentVideo.fields['url']}`;
+        currentVideoUrl = currentVideo.fields['url'];
       }
       
       currentVideoTitle = stripEmojis(currentVideo.fields['title']);
