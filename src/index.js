@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import './i18n.js';
 
@@ -10,7 +10,10 @@ import * as serviceWorker from './serviceWorker';
 const render = Component => {
   return ReactDOM.render(
     <Router>
-      <Component />
+      <Switch>
+        <Route path="/title/:videoId" component={App} />
+        <Route path="/" component={App} />
+      </Switch>
     </Router>,
     document.getElementById('root')
   );
