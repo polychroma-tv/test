@@ -342,6 +342,7 @@ class Player extends React.Component {
                                         autoPlay
                                         muted={this.props.isMuted}
                                         volume={this.props.volume}
+                                        crossOrigin="anonymous"
                                         onEnded={this.onEnd}
                                         onError={this.onError}
                                         ref={this.playerRef}
