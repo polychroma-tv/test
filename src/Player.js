@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 
 import Spinner from './Spinner.js'
 import Analytics from './Analytics.js'
+import AudioCompressor from './AudioCompressor.js';
 
 import {
     MAIN_BAR_WIDTH,
@@ -50,6 +51,8 @@ class Player extends React.Component {
         }
 
         this.updateChannelData();
+
+        this.audioCompressor = new AudioCompressor();
     }
 
     updateChannelData() {
@@ -96,6 +99,14 @@ class Player extends React.Component {
 
         if (prevProps.onDemandVideo !== this.props.onDemandVideo) {
             this.loadOnDemandVideo(this.props.onDemandVideo);
+        }
+
+        if (prevProps.isCompressorEnabled !== this.props.isCompressorEnabled) {
+            if (this.props.isCompressorEnabled) {
+                this.audioCompressor.connectToMediaElement(this.playerRef.current);
+            } else {
+                this.audioCompressor.disconnect();
+            }
         }
     }
 
