@@ -104,16 +104,53 @@ class App extends React.Component {
       const response = await fetch(`https://polychroma.tv/wp-json/tv/item/${videoId}`);
       const videoData = await response.json();
       if (videoData && videoData.src) {
+        const additionalInfo = await this.fetchAdditionalInfo(videoData);
         this.setState({
           onDemandVideo: {
             src: videoData.src,
-            type: videoData.type
+            type: videoData.type,
+            title: videoData.title,
+            description: videoData.description,
+            additionalInfo
           }
         });
       }
     } catch (error) {
       console.error('Error fetching on-demand video:', error);
     }
+  }
+
+  async fetchAdditionalInfo(videoData) {
+    let additionalInfo = {
+      contentRating: '',
+      genre: '',
+      year: ''
+    };
+
+    try {
+      if (videoData.type === 'html5') {
+        const sanitizedId = videoData.id.split('-')[0];
+        const response = await fetch(`https://imdb.polychroma.workers.dev/title/${sanitizedId}`);
+        const data = await response.json();
+        additionalInfo = {
+          contentRating: data.contentRating || 'Not Rated',
+          genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
+          year: data.year || ''
+        };
+      } else if (videoData.type === 'YouTube') {
+        const response = await fetch(`https://hls.videochro.me/info/${videoData.id}`);
+        const data = await response.json();
+        additionalInfo = {
+          contentRating: data.contentRating || 'Not Rated',
+          genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
+          year: data.year || ''
+        };
+      }
+    } catch (error) {
+      console.error('Error fetching additional info:', error);
+    }
+
+    return additionalInfo;
   }
 
   updateURL() {
@@ -309,7 +346,7 @@ class App extends React.Component {
             />
 
             <BottomBar
-              channelData={currentChannelData}
+              channelData={this.state.isOnDemand ? null : currentChannelData}
               isUIVisible={this.state.isUIVisible}
               isMuted={this.state.isMuted}
               volume={this.state.volume}
@@ -317,6 +354,7 @@ class App extends React.Component {
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
               fetchOnDemandVideo={this.fetchOnDemandVideo}
+              onDemandVideo={this.state.onDemandVideo}
             />
 
             <div
