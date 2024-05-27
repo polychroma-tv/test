@@ -194,7 +194,7 @@ class BottomBar extends React.Component {
   }
 
   render() {
-    const { t } = this.props; 
+    const { t, onDemandVideo } = this.props;
 
     let currentVideo, nextVideo;
     let time1Str, time2Str;
@@ -203,10 +203,18 @@ class BottomBar extends React.Component {
     let nextVideoTitle;
     let shouldShowNextVideo;
 
-    if (this.state.channelData) {
-      ({ time1Str, time2Str } = this.getFormatedTimes()); 
+    if (onDemandVideo) {
+      currentVideoTitle = onDemandVideo.title;
+      currentVideoUrl = `title/${onDemandVideo.id}`;
+      channelTitle = '';
+      channelUrl = '';
+      time1Str = '';
+      time2Str = '';
+      shouldShowNextVideo = false;
+    } else if (this.state.channelData) {
+      ({ time1Str, time2Str } = this.getFormatedTimes());
       ({ currentVideo, nextVideo } = this.state.channelData);
-      
+
       channelTitle =
         currentVideo.fields['channelTitle'] &&
         currentVideo.fields['channelTitle'][0];
@@ -214,21 +222,15 @@ class BottomBar extends React.Component {
         currentVideo.fields['channelUrl'] &&
         currentVideo.fields['channelUrl'][0];
 
-      // Use the same method for both html5 and YouTube
       currentVideoUrl = `title/${currentVideo.fields['id']}`;
-      
       currentVideoTitle = stripEmojis(currentVideo.fields['title']);
       nextVideoTitle = stripEmojis(nextVideo.fields['title']);
 
       const remainingTimeSec = (new Date(this.state.channelData.time2) - new Date()) / 1000;
-      shouldShowNextVideo = 
+      shouldShowNextVideo =
         nextVideoTitle &&
-        remainingTimeSec < 10 * 60
+        remainingTimeSec < 10 * 60;
     }
-
-    // let latlong, latlongLabel;
-    // latlong = currentVideo.fields['latlong'];
-    // latlongLabel = latlong && latlong.split(',').map(i => i+'°').join(' ');
 
     return (
       <div className={`
@@ -260,7 +262,6 @@ class BottomBar extends React.Component {
                 <div className="flex truncate">
                   <div className="truncate">
                     <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                      {/* Integration of onClick handler for currentVideoTitle */}
                       <button className="hover:underline" onClick={() => {
                         this.props.history.push(`/${currentVideoUrl}`);
                         this.props.fetchOnDemandVideo(currentVideo.fields['id']);
@@ -278,9 +279,19 @@ class BottomBar extends React.Component {
                 </div>
               </div>
               <div className="mt-2 text-xs additional-info">
-                {this.state.additionalInfo.contentRating && <div className="content-rating">{this.state.additionalInfo.contentRating}</div>}
-                {this.state.additionalInfo.genre && <div>{this.state.additionalInfo.genre}</div>}
-                {this.state.additionalInfo.year && <div>({this.state.additionalInfo.year})</div>}
+                {onDemandVideo ? (
+                  <>
+                    {onDemandVideo.additionalInfo.contentRating && <div className="content-rating">{onDemandVideo.additionalInfo.contentRating}</div>}
+                    {onDemandVideo.additionalInfo.genre && <div>{onDemandVideo.additionalInfo.genre}</div>}
+                    {onDemandVideo.additionalInfo.year && <div>({onDemandVideo.additionalInfo.year})</div>}
+                  </>
+                ) : (
+                  <>
+                    {this.state.additionalInfo.contentRating && <div className="content-rating">{this.state.additionalInfo.contentRating}</div>}
+                    {this.state.additionalInfo.genre && <div>{this.state.additionalInfo.genre}</div>}
+                    {this.state.additionalInfo.year && <div>({this.state.additionalInfo.year})</div>}
+                  </>
+                )}
               </div>
               <div className="mt-2 text-xs description">
                 {this.state.currentVideoDescription}
