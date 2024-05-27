@@ -260,7 +260,6 @@ class BottomBar extends React.Component {
                       <div className="truncate">
                         <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
                          <button className="hover:underline" onClick={() => {
-                            this.props.onVideoChange(currentVideo.fields['url']); // Pass the URL to the Player component
                             this.props.history.push(`/${currentVideoUrl}`);
                           }}>
                             {currentVideoTitle}
