@@ -103,7 +103,7 @@ class Player extends React.Component {
         if (onDemandVideo) {
             const videoUrl = onDemandVideo.src;
             const videoType = onDemandVideo.type;
-
+    
             if (videoType === 'YouTube') {
                 const videoId = this.extractYouTubeId(videoUrl);
                 this.setState({
@@ -119,11 +119,14 @@ class Player extends React.Component {
             } else {
                 this.setState({
                     videoUrl: videoUrl,
-                    isOnDemand: true
+                    isOnDemand: true,
+                    playerStatus: 'loading' // Set an initial loading state
                 }, () => {
                     if (this.playerRef.current) {
                         this.playerRef.current.load();
-                        this.playerRef.current.play();
+                        setTimeout(() => {
+                            this.setState({ playerStatus: 'playing' }); // Delay setting to 'playing'
+                        }, VIDEO_TRANSITION_MS); // Adjust the delay as needed
                     }
                 });
             }
