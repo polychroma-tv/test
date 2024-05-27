@@ -100,7 +100,7 @@ class App extends React.Component {
 
   async fetchOnDemandVideo(videoId) {
     try {
-      const response = await fetch(`https://polychroma.tv/wp-json/tv/items/${videoId}`);
+      const response = await fetch(`https://polychroma.tv/wp-json/tv/item/${videoId}`);
       const videoData = await response.json();
       if (videoData && videoData.src) {
         this.setState({
