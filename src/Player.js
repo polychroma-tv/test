@@ -95,11 +95,7 @@ class Player extends React.Component {
         }
 
         if (prevProps.onDemandVideo !== this.props.onDemandVideo) {
-            if (this.props.onDemandVideo) {
-                this.loadOnDemandVideo(this.props.onDemandVideo);
-            } else {
-                this.updateChannelData(); // Switch back to guide's playback
-            }
+            this.loadOnDemandVideo(this.props.onDemandVideo);
         }
     }
 
@@ -269,15 +265,10 @@ class Player extends React.Component {
         console.debug('onPlaybackQualityChange', e.data);
     }
 
-     render() {
+    render() {
         const { isUIVisible, t } = this.props;
         const { playerOpts, videoUrl, playerStatus, isOnDemand } = this.state;
-    
-        // Add a conditional check to handle the case when channelData is null
-        if (isOnDemand && !videoUrl) {
-            return <div>No video available</div>; // Return a placeholder or handle this case as needed
-        }
-    
+
         return (
             <div className="overflow-hidden">
                 <div
@@ -292,7 +283,7 @@ class Player extends React.Component {
                         cursor: isUIVisible ? 'zoom-in' : '',
                     }}
                     onClick={isUIVisible ? this.props.onPlayerClick : undefined}>
-    
+
                     <div
                         className="absolute w-full h-full bg-gray-100 flex items-center justify-center"
                         style={{
@@ -311,13 +302,13 @@ class Player extends React.Component {
                                 </div>
                         }
                     </div>
-    
+
                     {
                         videoUrl &&
                         <div className={`video-foreground
-                            transition-opacity ease-in-out duration-${VIDEO_TRANSITION_MS}
-                            ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
-                        `}>
+                        transition-opacity ease-in-out duration-${VIDEO_TRANSITION_MS}
+                        ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
+                    `}>
                             {
                                 !isOnDemand && this.props.channelData.currentVideo.fields.playerType === 'YouTube' ?
                                     <YouTube
@@ -354,7 +345,7 @@ class Player extends React.Component {
                 </div>
             </div>
         );
-    }    
+    }
 }
 
 export default withTranslation()(Player);
