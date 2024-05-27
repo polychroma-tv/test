@@ -59,7 +59,7 @@ class Player extends React.Component {
             const videoEnd = channelData.currentVideo.fields.duration * 60;
 
             const guideCreatedAt = new Date(this.props.guideCreatedAt);
-            const videoStartOffset = Math.ceil((new Date() - guideCreatedAt) / 1000);
+            const videoStartOffset = Math.ceil((newDate() - guideCreatedAt) / 1000);
             const videoStart = channelData.videoStart + videoStartOffset;
 
             // Delay update of Player data to give time to animation transition
@@ -93,6 +93,47 @@ class Player extends React.Component {
 
             this.updateChannelData();
         }
+
+        if (prevProps.onDemandVideo !== this.props.onDemandVideo) {
+            this.loadOnDemandVideo(this.props.onDemandVideo);
+        }
+    }
+
+    loadOnDemandVideo(onDemandVideo) {
+        if (onDemandVideo) {
+            const videoUrl = onDemandVideo.src;
+            const videoType = onDemandVideo.type;
+
+            if (videoType === 'YouTube') {
+                const videoId = this.extractYouTubeId(videoUrl);
+                this.setState({
+                    videoUrl: videoId,
+                    playerOpts: {
+                        playerVars: {
+                            ...defaultPlayerVars,
+                            start: 0,
+                        }
+                    },
+                    isOnDemand: true
+                });
+            } else {
+                this.setState({
+                    videoUrl: videoUrl,
+                    isOnDemand: true
+                }, () => {
+                    if (this.playerRef.current) {
+                        this.playerRef.current.load();
+                        this.playerRef.current.play();
+                    }
+                });
+            }
+        }
+    }
+
+    extractYouTubeId(url) {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
     }
 
     onReady(e) {
@@ -140,7 +181,7 @@ class Player extends React.Component {
                     this.props.setMuted();
 
                     if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_GIVEUP) {
-                        this.setState({playerStatus: 'error'});
+                        this.setState({ playerStatus: 'error' });
                     }
                 }
             } else {
@@ -182,11 +223,11 @@ class Player extends React.Component {
 
     onError(e) {
         const msg = {
-            2: 'The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.'
-            , 5: 'The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.'
-            , 100: 'The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.'
-            , 101: 'The owner of the requested video does not allow it to be played in embedded players.'
-            , 150: 'The owner of the requested video does not allow it to be played in embedded players.'
+            2: 'The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks.',
+            5: 'The requested content cannot be played in an HTML5 player or another error related to the HTML5 player has occurred.',
+            100: 'The video requested was not found. This error occurs when a video has been removed (for any reason) or has been marked as private.',
+            101: 'The owner of the requested video does not allow it to be played in embedded players.',
+            150: 'The owner of the requested video does not allow it to be played in embedded players.'
         };
         console.warn('YouTube Player error', e.data, msg[e.data]);
 
@@ -200,13 +241,13 @@ class Player extends React.Component {
     onStateChange(e) {
         // Source: https://developers.google.com/youtube/iframe_api_reference#onStateChange
         const msg = [
-            'unstarted',// -1
-            'ended',    // 0
-            'playing',  // 1
-            'paused',   // 2
-            'buffering',// 3
-            '',         // 4
-            'video cued'// 5
+            'unstarted', // -1
+            'ended',     // 0
+            'playing',   // 1
+            'paused',    // 2
+            'buffering', // 3
+            '',          // 4
+            'video cued' // 5
         ];
         const statusStr = msg[e.data + 1];
         console.debug('YouTube Player status:', e.data, statusStr);
@@ -226,7 +267,7 @@ class Player extends React.Component {
 
     render() {
         const { isUIVisible, t } = this.props;
-        const { playerOpts, videoUrl, playerStatus } = this.state;
+        const { playerOpts, videoUrl, playerStatus, isOnDemand } = this.state;
 
         return (
             <div className="overflow-hidden">
@@ -269,7 +310,7 @@ class Player extends React.Component {
                         ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
                     `}>
                             {
-                                this.props.channelData.currentVideo.fields.playerType === 'YouTube' ?
+                                !isOnDemand && this.props.channelData.currentVideo.fields.playerType === 'YouTube' ?
                                     <YouTube
                                         videoId={videoUrl}
                                         opts={playerOpts}
@@ -293,7 +334,7 @@ class Player extends React.Component {
                                         onCanPlay={this.onReady}
                                         onPlaying={() => this.setState({ playerStatus: 'playing' })}
                                         onTimeUpdate={(e) => {
-                                            if (e.target.currentTime < this.state.playerOpts.videoStart) {
+                                            if (!isOnDemand && e.target.currentTime < this.state.playerOpts.videoStart) {
                                                 e.target.currentTime = this.state.playerOpts.videoStart;
                                             }
                                         }}
