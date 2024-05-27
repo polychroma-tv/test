@@ -1,15 +1,8 @@
 import React from 'react';
 import { withRouter } from "react-router-dom";
 import Screenfull from "screenfull";
-
-import {
-  withOrientationChange,
-  MobileView,
-  isMobile
-} from "react-device-detect";
-
+import { withOrientationChange, MobileView, isMobile } from "react-device-detect";
 import { withTranslation } from 'react-i18next';
-
 import { isMobileSafari } from './utils.js';
 
 import LogoMenu from './LogoMenu.js'
@@ -45,7 +38,6 @@ class App extends React.Component {
     }
 
     const saved = this.getStateFromLocalStorage() || {};
-    // const params = this.getParamsFromURL();
 
     this.state = {
       welcome: saved.welcome_v2 !== undefined 
@@ -65,7 +57,8 @@ class App extends React.Component {
           : true,
       savedGuide: saved.guide,
       showSettings: false,
-      isOnDemand: false
+      isOnDemand: false,
+      onDemandVideo: null,
     };
 
     window.addEventListener('beforeunload', e => {
@@ -81,6 +74,7 @@ class App extends React.Component {
     const { videoId } = this.props.match.params;
     if (videoId) {
       this.setState({ isOnDemand: true });
+      await this.fetchOnDemandVideo(videoId);
     }
 
     Analytics.setUserProperty({
@@ -104,11 +98,25 @@ class App extends React.Component {
     this.updateGuide();
   }
 
+  async fetchOnDemandVideo(videoId) {
+    try {
+      const response = await fetch(`https://polychroma.tv/wp-json/tv/items/${videoId}`);
+      const videoData = await response.json();
+      if (videoData && videoData.src) {
+        this.setState({
+          onDemandVideo: {
+            src: videoData.src,
+            type: videoData.type
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching on-demand video:', error);
+    }
+  }
+
   updateURL() {
     const searchParams = new URLSearchParams();
-    // searchParams.set('muted', this.state.isMuted);
-    // searchParams.set('ui', this.state.isUIVisible);
-    
     const slug = this.state.currentCategory;
     this.props.history.push(`/${slug}?${searchParams.toString()}`);
   }
@@ -130,7 +138,7 @@ class App extends React.Component {
 
   getStateFromLocalStorage() {
     const savedState = JSON.parse(window.localStorage.getItem('polychroma-app-state'));
-    console.debug('Retrived saved state from local storage:', savedState);
+    console.debug('Retrieved saved state from local storage:', savedState);
     return savedState;
   }
 
@@ -139,17 +147,9 @@ class App extends React.Component {
       if (this.state.guide) {
         const currentChannelData = this.state.guide.channels[this.state.currentCategory];
         if (Date.now() > currentChannelData.time2) {
-          // Changing channel but current video already ended, rebuild guide
           this.updateGuide();
         }
 
-        // Guess not needed anymore with automatic video events from GA4?
-        // Analytics.event('impression', {
-        //   currentId: currentChannelData.currentVideo.fields.id,
-        //   currentTitle: currentChannelData.currentVideo.fields.title
-        // });
-
-        // Don't count on startup
         if (prevState.currentCategory) {
           Analytics.event('category_skipped');
         }
@@ -176,9 +176,6 @@ class App extends React.Component {
   }
 
   onPlayerClick(value) {
-    // if (Screenfull.isEnabled) {
-    //   Screenfull.request();
-    // }
     this.setState({ isUIVisible: false })
   }
 
@@ -203,7 +200,6 @@ class App extends React.Component {
   onToggleMute() {
     this.setState({
       isMuted: !this.state.isMuted,
-      // volume: this.state.isMuted ? 1 : 0
     });
   }
 
@@ -217,14 +213,7 @@ class App extends React.Component {
     this.setState({ volume: newVolume });
   }
 
-  skipVideo() {
-    // Disabled with new backend system
-    // console.warn('Something went wrong, skipping this video', this.state.currentVideo);
-    
-    // const currentPlaylist = this.state.categories[this.state.currentCategory].videos;
-    // currentPlaylist.splice(this.state.currentVideo, 1);
-    // this.updateGuide();
-  }
+  skipVideo() {}
 
   saveStateToLocalStorage() {
     const state = {
@@ -246,7 +235,6 @@ class App extends React.Component {
 
     console.debug('New computed guide:', guide);
 
-    // Check if selected category is valid according to new guide
     let currentCategory;
     if (this.state.currentCategory && guide.channels[this.state.currentCategory]) {
       currentCategory = this.state.currentCategory;
@@ -254,7 +242,6 @@ class App extends React.Component {
       currentCategory = Object.keys(guide.channels)[0];
     }
 
-    // Calculate diff of channels lengths
     if (this.state.savedGuide && this.state.savedGuide.channels) {
       const currentChannels = guide.channels;
       const prevChannels = this.state.savedGuide.channels;
@@ -264,7 +251,6 @@ class App extends React.Component {
           const l2 = currentChannels[k].length;
           const diff = l2 - l1;
           currentChannels[k].diff = diff > 0 ? diff : 0;
-          // console.debug(`${k} was ${l1} now its ${l2} = ${l2 - l1}`);
         }
       })
     }
@@ -318,6 +304,7 @@ class App extends React.Component {
               onVideoEnd={this.onVideoEnd}
               skipVideo={this.skipVideo}
               setMuted={this.setMuted}
+              onDemandVideo={this.state.onDemandVideo}
             />
 
             <BottomBar
