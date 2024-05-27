@@ -95,7 +95,11 @@ class Player extends React.Component {
         }
 
         if (prevProps.onDemandVideo !== this.props.onDemandVideo) {
-            this.loadOnDemandVideo(this.props.onDemandVideo);
+            if (this.props.onDemandVideo) {
+                this.loadOnDemandVideo(this.props.onDemandVideo);
+            } else {
+                this.updateChannelData(); // Switch back to guide's playback
+            }
         }
     }
 
