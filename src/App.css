@@ -139,40 +139,30 @@ input:checked + .slider .icon.moon {
 }
 
 .icon.lang {
+  font-size: 14px;
+  font-weight: bold;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 14px;
-  font-weight: bold;
   transition: transform .4s, opacity .4s;
 }
 
 .icon.lang:first-child {
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 10px;
+  opacity: 1;
 }
 
 .icon.lang:last-child {
-  right: 50%;
-  transform: translate(50%, -50%);
+  right: 10px;
+  opacity: 0;
 }
 
 input:checked + .slider .icon.lang:first-child {
-  transform: translate(-150%, -50%);
   opacity: 0;
 }
 
 input:checked + .slider .icon.lang:last-child {
-  transform: translate(-50%, -50%);
   opacity: 1;
-}
-
-.slider .icon.lang:first-child {
-  opacity: 1;
-}
-
-.slider .icon.lang:last-child {
-  opacity: 0;
 }
 
 .ios-button {
