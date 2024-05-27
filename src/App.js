@@ -169,11 +169,7 @@ class App extends React.Component {
   }
 
   onSwitchCategory(e) {
-    this.setState({ 
-      currentCategory: e.currentTarget.dataset.id,
-      isOnDemand: false,
-      onDemandVideo: null
-    });
+    this.setState({ currentCategory: e.currentTarget.dataset.id });
   }
 
   onToggleUI() {
@@ -320,7 +316,7 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
-              onDemandVideo={this.fetchOnDemandVideo}
+              fetchOnDemandVideo={this.fetchOnDemandVideo}
             />
 
             <div
