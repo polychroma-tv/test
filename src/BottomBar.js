@@ -263,7 +263,7 @@ class BottomBar extends React.Component {
                       {/* Integration of onClick handler for currentVideoTitle */}
                       <button className="hover:underline" onClick={() => {
                         this.props.history.push(`/${currentVideoUrl}`);
-                        this.props.onDemandVideo(); // Trigger onDemandVideo function
+                        this.props.fetchOnDemandVideo(currentVideo.fields['id']);
                       }}>
                         {currentVideoTitle}
                       </button>
