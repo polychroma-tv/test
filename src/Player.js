@@ -299,7 +299,7 @@ class Player extends React.Component {
                                 <div className="max-w-xs text-center text-gray-500">
                                     {t('video-error')}
                                 </div>
-                                : (playerStatus !== 'playing' || isOnDemand) &&
+                                : playerStatus !== 'playing' &&
                                 <div className="h-10 w-10 text-gray-400">
                                     <Spinner />
                                 </div>
