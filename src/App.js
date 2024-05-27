@@ -108,6 +108,10 @@ class App extends React.Component {
           onDemandVideo: {
             src: videoData.src,
             type: videoData.type
+          },
+          playerOpts: {
+            ...this.state.playerOpts,
+            videoStart: 0 // Reset videoStart for on-demand videos
           }
         });
       }
@@ -256,9 +260,16 @@ class App extends React.Component {
       })
     }
 
+    const currentChannelData = guide.channels[currentCategory];
+    const videoStart = (Date.now() - new Date(currentChannelData.time1)) / 1000;
+
     this.setState({
       guide,
-      currentCategory
+      currentCategory,
+      playerOpts: {
+        ...this.state.playerOpts,
+        videoStart // Set videoStart for channel videos
+      }
     });
   }
 
