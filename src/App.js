@@ -304,7 +304,6 @@ class App extends React.Component {
               onVideoEnd={this.onVideoEnd}
               skipVideo={this.skipVideo}
               setMuted={this.setMuted}
-              onDemandVideo={this.fetchOnDemandVideo}
             />
 
             <BottomBar
@@ -315,7 +314,7 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
-              onDemandVideo={this.state.onDemandVideo}
+              onDemandVideo={this.fetchOnDemandVideo}
             />
 
             <div
