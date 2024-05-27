@@ -205,6 +205,14 @@ body.dark-mode .ios-button:hover {
   pointer-events: none;
 }
 
+.current-video-title {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .additional-info {
   display: flex;
   align-items: center;
