@@ -271,7 +271,7 @@ class Player extends React.Component {
     render() {
         const { isUIVisible, t } = this.props;
         const { playerOpts, videoUrl, playerStatus, isOnDemand } = this.state;
-
+    
         return (
             <div className="overflow-hidden">
                 <div
@@ -286,7 +286,7 @@ class Player extends React.Component {
                         cursor: isUIVisible ? 'zoom-in' : '',
                     }}
                     onClick={isUIVisible ? this.props.onPlayerClick : undefined}>
-
+    
                     <div
                         className="absolute w-full h-full bg-gray-100 flex items-center justify-center"
                         style={{
@@ -305,13 +305,13 @@ class Player extends React.Component {
                                 </div>
                         }
                     </div>
-
+    
                     {
                         videoUrl &&
                         <div className={`video-foreground
-                        transition-opacity ease-in-out duration-${VIDEO_TRANSITION_MS}
-                        ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
-                    `}>
+                            transition-opacity ease-in-out duration-${VIDEO_TRANSITION_MS}
+                            ${playerStatus === 'playing' ? 'opacity-100' : 'opacity-0'}
+                        `}>
                             {
                                 !isOnDemand && this.props.channelData.currentVideo.fields.playerType === 'YouTube' ?
                                     <YouTube
@@ -335,7 +335,11 @@ class Player extends React.Component {
                                         onError={this.onError}
                                         ref={this.playerRef}
                                         onCanPlay={this.onReady}
-                                        onPlaying={() => this.setState({ playerStatus: 'playing' })}
+                                        onPlaying={() => {
+                                            if (isOnDemand) {
+                                                this.setState({ playerStatus: 'playing' });
+                                            }
+                                        }}                                        
                                         onTimeUpdate={(e) => {
                                             if (!isOnDemand && e.target.currentTime < this.state.playerOpts.videoStart) {
                                                 e.target.currentTime = this.state.playerOpts.videoStart;
@@ -348,7 +352,7 @@ class Player extends React.Component {
                 </div>
             </div>
         );
-    }
+    }    
 }
 
 export default withTranslation()(Player);
