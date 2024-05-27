@@ -64,7 +64,8 @@ class App extends React.Component {
           ? saved.isMuted
           : true,
       savedGuide: saved.guide,
-      showSettings: false
+      showSettings: false,
+      isOnDemand: false
     };
 
     window.addEventListener('beforeunload', e => {
@@ -77,6 +78,11 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    const { videoId } = this.props.match.params;
+    if (videoId) {
+      this.setState({ isOnDemand: true });
+    }
+
     Analytics.setUserProperty({
       isUIVisible: this.state.isUIVisible,
       isMuted: this.state.isMuted,
@@ -303,7 +309,7 @@ class App extends React.Component {
           !this.state.welcome &&
           <div>
             <Player
-              channelData={currentChannelData}
+              channelData={this.state.isOnDemand ? null : currentChannelData}
               guideCreatedAt={isReady && this.state.guide.createdAt}
               isMuted={this.state.isMuted}
               volume={this.state.volume}
