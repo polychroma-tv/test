@@ -21,8 +21,8 @@ export default class AudioCompressor {
   disconnect() {
     if (this.source) {
       this.source.disconnect();
+      this.compressor.disconnect(); // Ensure compressor is disconnected from the destination
       this.source = null; // Ensure source is set to null
     }
-    this.compressor.disconnect();
   }
 }
