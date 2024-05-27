@@ -16,6 +16,9 @@ export default class AudioCompressor {
   }
 
   disconnect() {
+    if (this.source) {
+      this.source.disconnect();
+    }
     this.compressor.disconnect();
   }
 }
