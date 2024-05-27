@@ -142,16 +142,28 @@ input:checked + .slider .icon.moon {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 14px;
+  font-weight: bold;
   transition: transform .4s, opacity .4s;
 }
 
+.icon.lang:first-child {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon.lang:last-child {
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
 input:checked + .slider .icon.lang:first-child {
-  transform: translateY(-50%);
+  transform: translate(-150%, -50%);
   opacity: 0;
 }
 
 input:checked + .slider .icon.lang:last-child {
-  transform: translateY(-50%);
+  transform: translate(-50%, -50%);
   opacity: 1;
 }
 
