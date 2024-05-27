@@ -304,6 +304,7 @@ class App extends React.Component {
               onVideoEnd={this.onVideoEnd}
               skipVideo={this.skipVideo}
               setMuted={this.setMuted}
+              onDemandVideo={this.state.onDemandVideo}
             />
 
             <BottomBar
