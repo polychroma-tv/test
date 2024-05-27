@@ -262,7 +262,7 @@ class BottomBar extends React.Component {
                 <div className="flex truncate">
                   <div className="truncate">
                     <div className={`truncate ${isMobile ? '' : 'text-xl'}`}>
-                      <button className="hover:underline" onClick={() => {
+                      <button className="hover:underline current-video-title" onClick={() => {
                         this.props.history.push(`/${currentVideoUrl}`);
                         this.props.fetchOnDemandVideo(currentVideo.fields['id']);
                       }}>
