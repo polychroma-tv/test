@@ -279,6 +279,10 @@ class Player extends React.Component {
         console.debug('onPlaybackQualityChange', e.data);
     }
 
+    componentWillUnmount() {
+        this.audioCompressor.disconnect();
+    }
+
     render() {
         const { isUIVisible, t } = this.props;
         const { playerOpts, videoUrl, playerStatus, isOnDemand } = this.state;
@@ -342,8 +346,7 @@ class Player extends React.Component {
                                         autoPlay
                                         muted={this.props.isMuted}
                                         volume={this.props.volume}
-                                        crossOrigin="anonymous"
-                                        onEnded={this.onEnd}
+                                        crossOrigin="anonymous"  // Add this line
                                         onError={this.onError}
                                         ref={this.playerRef}
                                         onCanPlay={this.onReady}
