@@ -110,6 +110,13 @@ class MainBar extends React.Component {
                                     </label>
                                 </div>
                                 <div className="settings-item">
+                                    <span>Compressor</span>
+                                    <label className="toggle-switch">
+                                        <input type="checkbox" onChange={this.props.toggleCompressor} checked={this.props.isCompressorEnabled} />
+                                        <span className="slider round"></span>
+                                    </label>
+                                </div>
+                                <div className="settings-item">
                                     <button className="ios-button" onClick={this.clearCache}>Clear Cache</button>
                                 </div>
                             </div>
