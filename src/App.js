@@ -33,6 +33,7 @@ class App extends React.Component {
     this.setMuted = this.setMuted.bind(this);
     this.toggleSettings = this.toggleSettings.bind(this);
     this.fetchOnDemandVideo = this.fetchOnDemandVideo.bind(this);
+    this.toggleCompressor = this.toggleCompressor.bind(this);
 
     if (!isMobileSafari()) {
       Screenfull.on('change', this.onFullScreenChange);
@@ -60,6 +61,7 @@ class App extends React.Component {
       showSettings: false,
       isOnDemand: false,
       onDemandVideo: null,
+      isCompressorEnabled: false,
     };
 
     window.addEventListener('beforeunload', e => {
@@ -69,6 +71,10 @@ class App extends React.Component {
 
   toggleSettings() {
     this.setState({ showSettings: !this.state.showSettings });
+  }
+
+  toggleCompressor() {
+    this.setState({ isCompressorEnabled: !this.state.isCompressorEnabled });
   }
 
   async componentDidMount() {
@@ -346,6 +352,7 @@ class App extends React.Component {
               skipVideo={this.skipVideo}
               setMuted={this.setMuted}
               onDemandVideo={this.state.onDemandVideo}
+              isCompressorEnabled={this.state.isCompressorEnabled}
             />
 
             <BottomBar
@@ -378,6 +385,8 @@ class App extends React.Component {
                 onAboutClick={() => this.setState({welcome: true})}
                 showSettings={this.state.showSettings}
                 toggleSettings={this.toggleSettings}
+                toggleCompressor={this.toggleCompressor}
+                isCompressorEnabled={this.state.isCompressorEnabled}
               />
             </div>
 
