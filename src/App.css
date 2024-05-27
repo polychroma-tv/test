@@ -148,12 +148,12 @@ input:checked + .slider .icon.moon {
 }
 
 .icon.lang:first-child {
-  left: 10px;
+  left: 8px;
   opacity: 1;
 }
 
 .icon.lang:last-child {
-  right: 10px;
+  right: 8px;
   opacity: 0;
 }
 
