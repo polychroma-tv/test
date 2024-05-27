@@ -109,8 +109,8 @@ class App extends React.Component {
           onDemandVideo: {
             src: videoData.src,
             type: videoData.type,
-            title: videoData.title,
-            description: videoData.description,
+            title: videoData.name, // Ensure title is set here
+            description: additionalInfo.description, // Set description from additional info
             additionalInfo
           }
         });
@@ -124,7 +124,8 @@ class App extends React.Component {
     let additionalInfo = {
       contentRating: '',
       genre: '',
-      year: ''
+      year: '',
+      description: '' // Add description here
     };
 
     try {
@@ -135,7 +136,8 @@ class App extends React.Component {
         additionalInfo = {
           contentRating: data.contentRating || 'Not Rated',
           genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
-          year: data.year || ''
+          year: data.year || '',
+          description: data.plot || 'No data available.' // Fetch description
         };
       } else if (videoData.type === 'YouTube') {
         const response = await fetch(`https://hls.videochro.me/info/${videoData.id}`);
@@ -143,7 +145,8 @@ class App extends React.Component {
         additionalInfo = {
           contentRating: data.contentRating || 'Not Rated',
           genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
-          year: data.year || ''
+          year: data.year || '',
+          description: data.description || 'No data available.' // Fetch description
         };
       }
     } catch (error) {
