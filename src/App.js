@@ -315,7 +315,7 @@ class App extends React.Component {
               onChangeVolume={this.onChangeVolume}
               onToggleMute={this.onToggleMute}
               onToggleFullscreen={this.onToggleFullscreen}
-              onDemandVideo={this.fetchOnDemandVideo}
+              fetchOnDemandVideo={this.fetchOnDemandVideo}
             />
 
             <div
