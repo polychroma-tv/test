@@ -39,6 +39,7 @@ class App extends React.Component {
     this.skipVideo = this.skipVideo.bind(this);
     this.setMuted = this.setMuted.bind(this);
     this.toggleSettings = this.toggleSettings.bind(this);
+    this.onVideoChange = this.onVideoChange.bind(this);
 
     if (!isMobileSafari()) {
       Screenfull.on('change', this.onFullScreenChange);
