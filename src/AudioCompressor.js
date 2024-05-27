@@ -10,14 +10,15 @@ export default class AudioCompressor {
   }
 
   connectToMediaElement(mediaElement) {
-    const source = this.audioContext.createMediaElementSource(mediaElement);
-    source.connect(this.compressor);
+    this.source = this.audioContext.createMediaElementSource(mediaElement);
+    this.source.connect(this.compressor);
     this.compressor.connect(this.audioContext.destination);
   }
 
   disconnect() {
     if (this.source) {
       this.source.disconnect();
+      this.source = null; // Ensure source is set to null
     }
     this.compressor.disconnect();
   }
