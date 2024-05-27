@@ -108,8 +108,7 @@ class App extends React.Component {
           onDemandVideo: {
             src: videoData.src,
             type: videoData.type
-          },
-          currentCategory: null // Unselect current category
+          }
         });
       }
     } catch (error) {
@@ -170,10 +169,7 @@ class App extends React.Component {
   }
 
   onSwitchCategory(e) {
-    this.setState({ 
-      currentCategory: e.currentTarget.dataset.id,
-      onDemandVideo: null // Reset onDemandVideo state
-    });
+    this.setState({ currentCategory: e.currentTarget.dataset.id });
   }
 
   onToggleUI() {
