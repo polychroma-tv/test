@@ -59,7 +59,7 @@ class Player extends React.Component {
             const videoEnd = channelData.currentVideo.fields.duration * 60;
 
             const guideCreatedAt = new Date(this.props.guideCreatedAt);
-            const videoStartOffset = Math.ceil((newDate() - guideCreatedAt) / 1000);
+            const videoStartOffset = Math.ceil((new Date() - guideCreatedAt) / 1000);
             const videoStart = channelData.videoStart + videoStartOffset;
 
             // Delay update of Player data to give time to animation transition
