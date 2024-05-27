@@ -1,12 +1,9 @@
 import React from 'react';
 import YouTube from 'react-youtube';
-
 import { withTranslation } from 'react-i18next';
-
-import Spinner from './Spinner.js'
-import Analytics from './Analytics.js'
+import Spinner from './Spinner.js';
+import Analytics from './Analytics.js';
 import AudioCompressor from './AudioCompressor.js';
-
 import {
     MAIN_BAR_WIDTH,
     BOTTOM_BAR_HEIGHT,
@@ -48,7 +45,7 @@ class Player extends React.Component {
 
         this.state = {
             playerStatus: undefined
-        }
+        };
 
         this.updateChannelData();
 
@@ -77,14 +74,13 @@ class Player extends React.Component {
                         },
                         videoStart
                     }
-                })
+                });
             }, VIDEO_TRANSITION_MS);
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.isMuted !== this.props.isMuted ||
-            prevProps.volume !== this.props.volume) {
+        if (prevProps.isMuted !== this.props.isMuted || prevProps.volume !== this.props.volume) {
             this.updateVolume();
         }
 
@@ -92,7 +88,7 @@ class Player extends React.Component {
             this.setState({
                 playerStatus: undefined,
                 videoUrl: undefined
-            })
+            });
 
             this.updateChannelData();
         }
@@ -114,7 +110,7 @@ class Player extends React.Component {
         if (onDemandVideo) {
             const videoUrl = onDemandVideo.src;
             const videoType = onDemandVideo.type;
-    
+
             if (videoType === 'YouTube') {
                 const videoId = this.extractYouTubeId(videoUrl);
                 this.setState({
@@ -179,14 +175,13 @@ class Player extends React.Component {
                     opts = {
                         video_title: this.props.channelData.currentVideo.fields.title,
                         video_url: this.props.channelData.currentVideo.fields.url,
-                    }
+                    };
                 }
             }
 
             Analytics.event('player_status_' + this.state.playerStatus, opts);
 
-            if (this.state.playerStatus === 'unstarted'
-                || this.state.playerStatus === undefined) {
+            if (this.state.playerStatus === 'unstarted' || this.state.playerStatus === undefined) {
                 this.consecutiveUnstarted += 1;
                 console.debug('consecutiveUnstarted', this.consecutiveUnstarted);
 
@@ -281,6 +276,9 @@ class Player extends React.Component {
 
     componentWillUnmount() {
         this.audioCompressor.disconnect();
+        if (this.gameLoopInterval) {
+            clearInterval(this.gameLoopInterval);
+        }
     }
 
     render() {
