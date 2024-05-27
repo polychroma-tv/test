@@ -151,20 +151,9 @@ class Player extends React.Component {
 
         this.consecutiveUnstarted = 0;
 
-        const { isOnDemand, playerOpts } = this.state;
-
-        if (isOnDemand) {
-            // On-demand video starts from the beginning
-            e.target.playVideo();
-        } else {
-            // Channel video starts from a specific time
-            if (this.props.channelData.currentVideo.fields.playerType === 'html5') {
-                e.target.currentTime = playerOpts.videoStart;
-                e.target.play();
-            } else if (this.props.channelData.currentVideo.fields.playerType === 'YouTube') {
-                e.target.seekTo(playerOpts.videoStart, true);
-                e.target.playVideo();
-            }
+        if (this.props.channelData.currentVideo.fields.playerType === 'HTML5') {
+            e.target.currentTime = this.state.playerOpts.videoStart;
+            e.target.play();
         }
     }
 
