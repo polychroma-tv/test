@@ -1,38 +1,30 @@
-export default class AudioCompressor {
+class AudioCompressor {
   constructor() {
-    this.initAudioContext();
-  }
-
-  initAudioContext() {
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     this.compressor = this.audioContext.createDynamicsCompressor();
-    this.compressor.threshold.setValueAtTime(-50, this.audioContext.currentTime);
-    this.compressor.knee.setValueAtTime(40, this.audioContext.currentTime);
-    this.compressor.ratio.setValueAtTime(12, this.audioContext.currentTime);
-    this.compressor.attack.setValueAtTime(0, this.audioContext.currentTime);
-    this.compressor.release.setValueAtTime(0.25, this.audioContext.currentTime);
+    this.source = null;
   }
 
   connectToMediaElement(mediaElement) {
-    if (!this.audioContext || this.audioContext.state === 'closed') {
-      this.initAudioContext();
+    if (mediaElement instanceof HTMLMediaElement) {
+      if (this.source) {
+        this.source.disconnect();
+      }
+      this.source = this.audioContext.createMediaElementSource(mediaElement);
+      this.source.connect(this.compressor);
+      this.compressor.connect(this.audioContext.destination);
+    } else {
+      console.error('Provided element is not a valid HTMLMediaElement');
     }
-    if (this.source) {
-      this.disconnect(); // Disconnect existing source if any
-    }
-    this.source = this.audioContext.createMediaElementSource(mediaElement);
-    this.source.connect(this.compressor);
-    this.compressor.connect(this.audioContext.destination);
   }
 
   disconnect() {
     if (this.source) {
-        this.source.disconnect();
-        // Do not reconnect the source directly to the destination
-        this.source = null;
-    }
-    if (this.compressor) {
-        this.compressor.disconnect();
+      this.source.disconnect();
+      this.compressor.disconnect();
+      this.source = null;
     }
   }
 }
+
+export default AudioCompressor;
