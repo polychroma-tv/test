@@ -27,12 +27,12 @@ export default class AudioCompressor {
 
   disconnect() {
     if (this.source) {
-      this.source.disconnect();
-      this.source.connect(this.audioContext.destination); // Ensure playback continues without compressor
-      this.source = null;
+        this.source.disconnect();
+        // Do not reconnect the source directly to the destination
+        this.source = null;
     }
     if (this.compressor) {
-      this.compressor.disconnect();
+        this.compressor.disconnect();
     }
   }
 }
