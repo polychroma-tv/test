@@ -5,14 +5,15 @@ import { withOrientationChange, MobileView, isMobile } from "react-device-detect
 import { withTranslation } from 'react-i18next';
 import { isMobileSafari } from './utils.js';
 
-import LogoMenu from './LogoMenu.js'
-import BottomBar from './BottomBar.js'
-import MainBar from './MainBar.js'
-import Player from './Player.js'
-import Welcome from './Welcome.js'
-import Analytics from './Analytics.js'
+import LogoMenu from './LogoMenu.js';
+import BottomBar from './BottomBar.js';
+import MainBar from './MainBar.js';
+import Player from './Player.js';
+import Welcome from './Welcome.js';
+import Analytics from './Analytics.js';
+import AudioCompressor from './AudioCompressor'; // Import AudioCompressor
 
-import IconRotate from './assets/IconRotate.js'
+import IconRotate from './assets/IconRotate.js';
 
 import './App.css';
 
@@ -67,6 +68,8 @@ class App extends React.Component {
     window.addEventListener('beforeunload', e => {
       this.saveStateToLocalStorage();
     });
+
+    this.audioCompressor = new AudioCompressor(); // Initialize AudioCompressor
   }
 
   toggleSettings() {
@@ -74,7 +77,17 @@ class App extends React.Component {
   }
 
   toggleCompressor() {
-    this.setState({ isCompressorEnabled: !this.state.isCompressorEnabled });
+    this.setState(
+      prevState => ({ isCompressorEnabled: !prevState.isCompressorEnabled }),
+      () => {
+        const audioElement = document.querySelector('audio');
+        if (this.state.isCompressorEnabled) {
+          this.audioCompressor.connectToMediaElement(audioElement);
+        } else {
+          this.audioCompressor.disconnect();
+        }
+      }
+    );
   }
 
   async componentDidMount() {
@@ -115,8 +128,8 @@ class App extends React.Component {
           onDemandVideo: {
             src: videoData.src,
             type: videoData.type,
-            title: videoData.name, // Ensure title is set here
-            description: additionalInfo.description, // Set description from additional info
+            title: videoData.name,
+            description: additionalInfo.description,
             additionalInfo
           }
         });
@@ -131,7 +144,7 @@ class App extends React.Component {
       contentRating: '',
       genre: '',
       year: '',
-      description: '' // Add description here
+      description: ''
     };
 
     try {
@@ -143,7 +156,7 @@ class App extends React.Component {
           contentRating: data.contentRating || 'Not Rated',
           genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
           year: data.year || '',
-          description: data.plot || 'No data available.' // Fetch description
+          description: data.plot || 'No data available.'
         };
       } else if (videoData.type === 'YouTube') {
         const response = await fetch(`https://hls.videochro.me/info/${videoData.id}`);
@@ -152,7 +165,7 @@ class App extends React.Component {
           contentRating: data.contentRating || 'Not Rated',
           genre: data.genre ? data.genre.slice(0, 2).join(', ') : '',
           year: data.year || '',
-          description: data.description || 'No data available.' // Fetch description
+          description: data.description || 'No data available.'
         };
       }
     } catch (error) {
