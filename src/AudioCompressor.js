@@ -1,5 +1,9 @@
 export default class AudioCompressor {
   constructor() {
+    this.initAudioContext();
+  }
+
+  initAudioContext() {
     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     this.compressor = this.audioContext.createDynamicsCompressor();
     this.compressor.threshold.setValueAtTime(-50, this.audioContext.currentTime);
@@ -10,6 +14,9 @@ export default class AudioCompressor {
   }
 
   connectToMediaElement(mediaElement) {
+    if (!this.audioContext || this.audioContext.state === 'closed') {
+      this.initAudioContext();
+    }
     if (this.source) {
       this.disconnect(); // Disconnect existing source if any
     }
@@ -21,13 +28,11 @@ export default class AudioCompressor {
   disconnect() {
     if (this.source) {
       this.source.disconnect();
-      this.source = null; // Ensure source is set to null
+      this.source.connect(this.audioContext.destination); // Ensure playback continues without compressor
+      this.source = null;
     }
     if (this.compressor) {
       this.compressor.disconnect();
-    }
-    if (this.audioContext) {
-      this.audioContext.close().catch(err => console.error('Error closing AudioContext:', err));
     }
   }
 }
