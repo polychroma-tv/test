@@ -186,8 +186,11 @@ class Player extends React.Component {
                 console.debug('consecutiveUnstarted', this.consecutiveUnstarted);
 
                 if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_TO_MUTE) {
-                    console.debug('force set muted');
-                    this.props.setMuted();
+                    // Only mute if the player is not already unmuted by the user
+                    if (this.props.isMuted === false) {
+                        console.debug('force set muted due to unstarted timeout');
+                        this.props.setMuted();
+                    }
 
                     if (this.consecutiveUnstarted > UNSTARTED_TIMEOUT_GIVEUP) {
                         this.setState({ playerStatus: 'error' });
