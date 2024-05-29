@@ -125,7 +125,7 @@ class MainBar extends React.Component {
                                 {Object.keys(channels).map(k =>
                                     <button
                                         className={`
-                                            flex items-baseline w-full text-left focus:outline-none
+                                            flex items-center w-full text-left focus:outline-none
                                             hover:text-current focus:text-current transition-all ease-in duration-300
                                             ${isMobile ? 'py-1 text-lg' : 'py-2 text-xl'}
                                             ${currentCategory === k ? 'text-current' : 'text-gray-400'}
@@ -134,6 +134,7 @@ class MainBar extends React.Component {
                                         data-id={channels[k].slug}
                                         key={k}
                                     >
+                                        <span className="text-xs mr-2">{channels[k].slug}</span>
                                         {
                                             i18n.language.split('-')[0] === 'es'
                                                 ? channels[k]['title-es']
