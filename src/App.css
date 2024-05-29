@@ -224,6 +224,14 @@ body.dark-mode .ios-button:hover {
   pointer-events: none;
 }
 
+video::-webkit-media-controls {
+    display: none;
+}
+
+video::-moz-focus-inner {
+    display: none;
+}
+
 .current-video-title {
   display: inline-block;
   max-width: 100%;
