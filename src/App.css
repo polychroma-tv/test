@@ -70,6 +70,8 @@
   flex-direction: column;
   gap: 1rem;
   width: 12em;
+  height: 446px;
+  max-height: 446px;
 }
 
 .settings-item {
