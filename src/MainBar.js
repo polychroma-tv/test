@@ -89,8 +89,9 @@ class MainBar extends React.Component {
                     {
                         this.state.showSettings ? (
                             <div className="settings-menu">
+                                <div className="settings-heading">Theme</div>
                                 <div className="settings-item">
-                                    <span>Theme</span>
+                                    <span>Dark Mode</span>
                                     <label className="toggle-switch">
                                         <input type="checkbox" onChange={this.setDarkMode} checked={this.state.darkMode} />
                                         <span className="slider round">
@@ -109,6 +110,7 @@ class MainBar extends React.Component {
                                         </span>
                                     </label>
                                 </div>
+                                <div className="settings-heading">Audio</div>
                                 <div className="settings-item">
                                     <span>Compressor</span>
                                     <label className="toggle-switch">
