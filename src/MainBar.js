@@ -121,43 +121,45 @@ class MainBar extends React.Component {
                                 </div>
                             </div>
                         ) : (
-                            Object.keys(channels).map(k =>
-                                <button
-                                    className={`
-                                        flex items-baseline w-full text-left focus:outline-none
-                                        hover:text-current focus:text-current transition-all ease-in duration-300
-                                        ${isMobile ? 'py-1 text-lg' : 'py-2 text-xl'}
-                                        ${currentCategory === k ? 'text-current' : 'text-gray-400'}
-                                    `}
-                                    onClick={this.props.onSwitchCategory}
-                                    data-id={channels[k].slug}
-                                    key={k}
-                                >
-                                    {
-                                        i18n.language.split('-')[0] === 'es'
-                                            ? channels[k]['title-es']
-                                            : i18n.language.split('-')[0] === 'en'
-                                                ? channels[k]['title-en']
-                                                : channels[k]['title']
-                                    }
-                                    {
-                                        !isMobile &&
-                                        <sup className="ml-1 text-xs">
-                                            {channels[k].length}
-                                            {
-                                                channels[k].diff ?
-                                                <span className={`
-                                                    text-teal-600 font-bold py-0 px-1 text-xs
-                                                    ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}`}
-                                                    style={{transition: 'opacity 10s ease-in'}}>
-                                                    <span className="font-logo">↑</span>{ channels[k].diff }
-                                                </span>
-                                                : null
-                                            }
-                                        </sup>
-                                    }
-                                </button>
-                            )
+                            <div className="main-bar-scroll">
+                                {Object.keys(channels).slice(0, 10).map(k => (
+                                    <button
+                                        className={`
+                                            flex items-baseline w-full text-left focus:outline-none
+                                            hover:text-current focus:text-current transition-all ease-in duration-300
+                                            ${isMobile ? 'py-1 text-lg' : 'py-2 text-xl'}
+                                            ${currentCategory === k ? 'text-current' : 'text-gray-400'}
+                                        `}
+                                        onClick={this.props.onSwitchCategory}
+                                        data-id={channels[k].slug}
+                                        key={k}
+                                    >
+                                        {
+                                            i18n.language.split('-')[0] === 'es'
+                                                ? channels[k]['title-es']
+                                                : i18n.language.split('-')[0] === 'en'
+                                                    ? channels[k]['title-en']
+                                                    : channels[k]['title']
+                                        }
+                                        {
+                                            !isMobile &&
+                                            <sup className="ml-1 text-xs">
+                                                {channels[k].length}
+                                                {
+                                                    channels[k].diff ?
+                                                    <span className={`
+                                                        text-teal-600 font-bold py-0 px-1 text-xs
+                                                        ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}`}
+                                                        style={{transition: 'opacity 10s ease-in'}}>
+                                                        <span className="font-logo">↑</span>{ channels[k].diff }
+                                                    </span>
+                                                    : null
+                                                }
+                                            </sup>
+                                        }
+                                    </button>
+                                ))}
+                            </div>
                         )
                     }
                 </div>
