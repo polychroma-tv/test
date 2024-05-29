@@ -142,29 +142,12 @@ class MainBar extends React.Component {
                                                     ? channels[k]['title-en']
                                                     : channels[k]['title']
                                         }
-                                        {
-                                            !isMobile &&
-                                            <sup className="ml-1 text-xs">
-                                                {channels[k].length}
-                                                {
-                                                    channels[k].diff ?
-                                                    <span className={`
-                                                        text-teal-600 font-bold py-0 px-1 text-xs
-                                                        ${this.state.fadeOutDiffs ? 'opacity-0' : 'opacity-100'}`}
-                                                        style={{transition: 'opacity 10s ease-in'}}>
-                                                        <span className="font-logo">↑</span>{ channels[k].diff }
-                                                    </span>
-                                                    : null
-                                                }
-                                            </sup>
-                                        }
                                     </button>
                                 )}
                             </div>
                         )
                     }
                 </div>
-
                 <BrowserView>
                     <div className="flex flex-col -mb-2 mt-4">
                         <button
