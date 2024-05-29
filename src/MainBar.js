@@ -153,7 +153,7 @@ class MainBar extends React.Component {
                 <BrowserView>
                     <div className="flex flex-col -mb-2 mt-4">
                         <button
-                            className={SECONDARY_NAV_STYLE}
+                            className={`${SECONDARY_NAV_STYLE} flex items-center`}
                             onClick={this.toggleSettings}
                         >
                            { this.state.showSettings ? <><FaArrowLeft className="mr-2" />{t('back')}</> : <><FaCog className="mr-2" />{t('settings')}</> }
