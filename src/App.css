@@ -74,6 +74,13 @@
   max-height: 446px;
 }
 
+.settings-heading {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
 .settings-item {
   display: flex;
   justify-content: space-between;
