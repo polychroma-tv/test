@@ -1,7 +1,7 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
 import { BrowserView, isMobile } from "react-device-detect";
-import { FaSun, FaMoon } from 'react-icons/fa';
+import { FaSun, FaMoon, FaCog, FaArrowLeft } from 'react-icons/fa';
 
 import {
     BOTTOM_BAR_HEIGHT,
@@ -156,7 +156,7 @@ class MainBar extends React.Component {
                             className={SECONDARY_NAV_STYLE}
                             onClick={this.toggleSettings}
                         >
-                           { this.state.showSettings ? t('back') : t('settings') }
+                           { this.state.showSettings ? <><FaArrowLeft className="mr-2" />{t('back')}</> : <><FaCog className="mr-2" />{t('settings')}</> }
                         </button>
                     </div>
                 </BrowserView>
