@@ -122,7 +122,7 @@ class MainBar extends React.Component {
                             </div>
                         ) : (
                             <div className="main-bar-scroll">
-                                {Object.keys(channels).slice(0, 10).map(k => (
+                                {Object.keys(channels).map(k =>
                                     <button
                                         className={`
                                             flex items-baseline w-full text-left focus:outline-none
@@ -158,7 +158,7 @@ class MainBar extends React.Component {
                                             </sup>
                                         }
                                     </button>
-                                ))}
+                                )}
                             </div>
                         )
                     }
