@@ -51,9 +51,18 @@
 .main-bar-scroll {
     max-height: 500px; /* Adjust based on your item height to show only ten items */
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #888 #f0f0f0;
-    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Hide scrollbar for Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on touch devices */
+    scroll-snap-type: y mandatory; /* Enable snapping */
+}
+
+.main-bar-scroll::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for WebKit browsers */
+}
+
+.main-bar-scroll button {
+    scroll-snap-align: start; /* Ensure each button snaps to the start of the scroll container */
 }
 
 .settings-menu {
