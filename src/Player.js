@@ -340,7 +340,6 @@ class Player extends React.Component {
                                     <video
                                         className="video-foreground"
                                         src={videoUrl}
-                                        controls
                                         autoPlay
                                         muted={this.props.isMuted}
                                         volume={this.props.volume}
