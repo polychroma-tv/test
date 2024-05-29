@@ -90,11 +90,16 @@ class BottomBar extends React.Component {
   }
 
   processDescription(description) {
-    const periodIndex = description.indexOf('.');
-    if (periodIndex !== -1) {
-      return description.substring(0, periodIndex + 1);
+  const firstPeriodIndex = description.indexOf('.');
+  if (firstPeriodIndex !== -1) {
+    const secondPeriodIndex = description.indexOf('.', firstPeriodIndex + 1);
+    if (secondPeriodIndex !== -1) {
+      return description.substring(0, secondPeriodIndex + 1);
+    } else {
+      return description.substring(0, firstPeriodIndex + 1);
     }
-    return description;
+  }
+  return description;
   }
 
   onMouseMove(e) {
