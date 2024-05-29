@@ -49,7 +49,7 @@
 }
 
 .main-bar-scroll {
-    max-height: 500px; /* Adjust based on your item height to show only ten items */
+    max-height: 460px; /* Adjust based on your item height to show only ten items */
     overflow-y: auto;
     scrollbar-width: none; /* Hide scrollbar for Firefox */
     -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
