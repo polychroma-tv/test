@@ -345,6 +345,7 @@ class Player extends React.Component {
                                         muted={this.props.isMuted}
                                         volume={this.props.volume}
                                         crossOrigin="anonymous"  // Add this line
+                                        tabIndex="-1"
                                         onError={this.onError}
                                         ref={this.playerRef}
                                         onCanPlay={this.onReady}
